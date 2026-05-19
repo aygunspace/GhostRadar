@@ -1,0 +1,352 @@
+The following changes were made by the USER to: c:\Users\EXCALIBUR\Desktop\GhostRadar\templates\index.html. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -124,8 +124,9 @@
+     <nav class="border-b border-slate-800 bg-slate-900/90 backdrop-blur-md sticky top-0 z-50 shadow-lg">
+         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+             <div class="flex items-center gap-8">
+-                <h1 class="text-2xl font-black text-sky-400 tracking-tighter" style="text-shadow: 0 0 15px rgba(56, 189, 248, 0.4);">GHOSTRADAR 🕵️‍♂️</h1>
+-                
++                <h1 class="text-2xl font-black text-sky-400 tracking-tighter"
++                    style="text-shadow: 0 0 15px rgba(56, 189, 248, 0.4);">GHOSTRADAR 🕵️‍♂️</h1>
++
+                 <!-- Masaüstü Menü -->
+                 <div class="hidden md:flex gap-6 text-sm font-bold text-slate-400">
+<truncated 348 bytes>
+
+====
+
+The following changes were made by the USER to: c:\Users\EXCALIBUR\Desktop\GhostRadar\templates\index.html. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -138,11 +138,17 @@
+ 
+             <!-- Sağ Kısım: Buton + Mobil Menü İkonu -->
+             <div class="flex items-center gap-4">
+-                <button onclick="openModal()" class="hidden sm:block bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-bold py-2 px-6 rounded-lg transition text-sm shadow-[0_0_15px_rgba(56,189,248,0.4)]">Süreç Ekle +</button>
+-                
++                <button onclick="openModal()"
++                    class="hidden sm:block bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-bold py-2 px-6 rounded-lg transition text-sm shadow-[0_0_15px_rgba(56,189,248,0.4)]">Süreç
++                    Ekle +</button>
++
+<truncated 2461 bytes>
+
+====
+
+The following changes were made by the USER to: c:\Users\EXCALIBUR\Desktop\GhostRadar\templates\index.html. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -4,11 +4,13 @@
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+-    
++
+     <!-- TEMEL SEO & ARAMA MOTORU ETİKETLERİ -->
+     <title>GhostRadar | Türkiye'nin İşe Alım Portalı</title>
+-    <meta name="description" content="Aday deneyimlerine dayalı bölgesel şeffaflık ve ghosting haritası. Hangi şirket mülakat sürecinde ne kadar şeffaf? Sürecini ekle, komüniteye katıl!">
+-    <meta name="keywords" content="işe alım, mülakat, ghosting, maaş beklentisi, teknik mülakat, insan kaynakları, tüpraş mülakat, aselsan mülakat, aday deneyimi">
++    <meta name="description"
+<truncated 2976 bytes>
+
+====
+
+The following changes were made by the USER to: c:\Users\EXCALIBUR\Desktop\GhostRadar\templates\index.html. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -414,7 +414,12 @@
+                 <div>
+                     <h2 class="text-2xl font-black text-white mb-4">GhostRadar Nedir?</h2>
+                     <p class="text-slate-400 text-sm leading-relaxed text-justify">
+-                        GhostRadar, Türkiye'deki yeteneklerin ve yeni mezunların mülakat süreçlerindeki şeffaflığı artırmak için kurulan anonim bir veri platformudur. Şirketlerin adaylara geri dönüş hızlarını, mülakat zorluk derecelerini ve sektörün en büyük problemi olan <strong class="text-slate-200">"Ghosting" (habersiz bırakma)</strong> oranlarını gerçek kullanıcı verileriyle haritalandırır. Adayların mülakatlara girmeden önce şirket kültürünü ve "Adaya Saygı Endeksi"ni görmesini sağlar.
+<truncated 3488 bytes>
+
+====
+
+The following changes were made by the USER to: c:\Users\EXCALIBUR\Desktop\GhostRadar\templates\index.html. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -507,14 +507,18 @@
+                 </div>
+                 <textarea id="experience" placeholder="Deneyimin..."
+                     class="w-full bg-slate-900 border border-slate-700 text-sm rounded-xl p-3 h-20 text-white"></textarea>
+-                
++
+                 <!-- YENİ: Anti-Bot Captcha -->
+-                <div class="bg-slate-900/80 border border-slate-700 p-3 rounded-xl flex items-center justify-between mt-2">
++                <div
++                    class="bg-slate-900/80 border border-slate-700 p-3 rounded-xl flex items-center justify-between mt-2">
+                     <label class="text-xs font-bold text-slate-400 flex items-center gap-2">
+-                        <span>🤖 Robot Koruması:</span> 
+<truncated 1178 bytes>
+
+====
+
+The following changes were made by the USER to: c:\Users\EXCALIBUR\Desktop\GhostRadar\templates\index.html. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -696,8 +696,8 @@
+ 
+         // Modalı açan fonksiyonu da güncelliyoruz ki her açılışta yeni soru sorsun
+         const modal = document.getElementById('dataModal');
+-        function openModal() { 
+-            modal.classList.remove('hidden'); 
++        function openModal() {
++            modal.classList.remove('hidden');
+             generateCaptcha(); // Modal açılınca soruyu oluştur
+         }
+         function closeModal() { modal.classList.add('hidden'); }
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.
+
+====
+
+The following changes were made by the USER to: c:\Users\EXCALIBUR\Desktop\GhostRadar\templates\index.html. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -720,7 +720,7 @@
+         // Form Gönderiminde Bot Kontrolü
+         document.getElementById('add-form').addEventListener('submit', function (e) {
+             e.preventDefault();
+-            
++
+             // Kullanıcının girdiği cevabı kontrol et
+             const userAnswer = parseInt(document.getElementById('captcha-answer').value);
+             if (userAnswer !== captchaCorrectAnswer) {
+@@ -729,20 +729,20 @@
+             }
+ 
+             const newData = {
+-                company: document.getElementById('company').value, 
++                company: document.getElementById('company').value,
+                 sector: document.getElementById('sector').value,
+-                program: document.getElementById('program').value, 
+<truncated 1299 bytes>
+
+====
+
+The following changes were made by the USER to: c:\Users\EXCALIBUR\Desktop\GhostRadar\templates\index.html. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -471,7 +471,9 @@
+                 <div class="grid grid-cols-2 gap-4">
+                     <!-- GÜNCELLENDİ: list özelliği eklendi ve datalist oluşturuldu -->
+                     <div class="relative w-full">
+-                        <input type="text" id="company" list="company-list" placeholder="Şirket (Yazmaya başla...)" class="w-full bg-slate-900 border border-slate-700 text-sm rounded-xl p-3 text-white" required autocomplete="off">
++                        <input type="text" id="company" list="company-list" placeholder="Şirket (Yazmaya başla...)"
++                            class="w-full bg-slate-900 border border-slate-700 text-sm rounded-xl p-3 text-white"
++                            required autocomplete="off">
+<truncated 437 bytes>
+
+====
+
+The following changes were made by the USER to: c:\Users\EXCALIBUR\Desktop\GhostRadar\templates\index.html. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -561,7 +561,7 @@
+         function showToast(message, type = 'success') {
+             const container = document.getElementById('toast-container');
+             const toast = document.createElement('div');
+-            
++
+             // Tipine göre renk ve ikon seçimi
+             const isError = type === 'error';
+             const bgColor = isError ? 'bg-rose-500/90' : 'bg-emerald-500/90';
+@@ -569,7 +569,7 @@
+ 
+             toast.className = `flex items-center gap-3 ${bgColor} border ${borderColor} text-white px-5 py-3 rounded-xl shadow-2xl transform transition-all duration-500 translate-x-full opacity-0 pointer-events-auto backdrop-blur-md`;
+<truncated 509 bytes>
+
+====
+
+The following changes were made by the USER to: c:\Users\EXCALIBUR\Desktop\GhostRadar\templates\index.html. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -761,7 +761,7 @@
+         // Form Gönderiminde Bot Kontrolü
+         document.getElementById('add-form').addEventListener('submit', function (e) {
+             e.preventDefault();
+-            
++
+             // Kullanıcının girdiği cevabı kontrol et
+             const userAnswer = parseInt(document.getElementById('captcha-answer').value);
+             if (userAnswer !== captchaCorrectAnswer) {
+@@ -768,23 +768,23 @@
+                 showToast("Bip bop! Robot testi hatalı, tekrar dene.", "error");
+                 generateCaptcha();
+-                return; 
++                return;
+             }
+ 
+             const newData = {
+-                company: document.getElementById('company').value, 
++                company: document.getElementById('company').value,
+<truncated 1554 bytes>
+
+====
+
+The following changes were made by the USER to: c:\Users\EXCALIBUR\Desktop\GhostRadar\templates\index.html. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -371,13 +371,16 @@
+ 
+             <!-- Sağ Panel: Trend ve PULSE -->
+             <div class="space-y-6">
+-                
++
+                 <!-- YENİ: Utanç Tablosu (Hall of Shame) -->
+-                <div class="bg-rose-950/20 border border-rose-500/30 rounded-2xl p-6 shadow-[0_0_25px_rgba(244,63,94,0.08)] relative overflow-hidden">
++                <div
++                    class="bg-rose-950/20 border border-rose-500/30 rounded-2xl p-6 shadow-[0_0_25px_rgba(244,63,94,0.08)] relative overflow-hidden">
+                     <div class="absolute top-0 right-0 w-24 h-24 bg-rose-500/10 rounded-full blur-2xl"></div>
+-                    <h3 class="font-black mb-4 text-rose-500 text-xs uppercase tracking-widest flex items-center justify-between z-10 relative">
+<truncated 978 bytes>
+
+====
+
+The following changes were made by the USER to: c:\Users\EXCALIBUR\Desktop\GhostRadar\templates\index.html. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -639,7 +639,7 @@
+ 
+                 // YENİ: Utanç Tablosu (Hall of Shame) Algoritması
+                 const companyStats = {};
+-                
++
+                 // 1. Şirketlere göre verileri grupla ve ghosting sayılarını bul
+                 data.forEach(item => {
+                     if (!companyStats[item.company_name]) {
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.
+
+====
+
+The following changes were made by the USER to: c:\Users\EXCALIBUR\Desktop\GhostRadar\templates\index.html. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -657,8 +657,8 @@
+                     const rate = stats.total > 0 ? (stats.ghosted / stats.total) * 100 : 0;
+                     return { name, rate, total: stats.total };
+                 }).filter(c => c.total >= 1 && c.rate > 0) // Sadece ghosting olanları al
+-                  .sort((a, b) => b.rate - a.rate || b.total - a.total) // Önce orana, sonra veri sayısına göre diz
+-                  .slice(0, 3); // Zirvedeki 3 şirketi al
++                    .sort((a, b) => b.rate - a.rate || b.total - a.total) // Önce orana, sonra veri sayısına göre diz
++                    .slice(0, 3); // Zirvedeki 3 şirketi al
+ 
+                 // 3. Ekrana Bas
+                 const shameList = document.getElementById('shame-list');
+[diff_block_end]
+
+<truncated 227 bytes>
+
+====
+
+The following changes were made by the USER to: c:\Users\EXCALIBUR\Desktop\GhostRadar\templates\index.html. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -168,18 +168,26 @@
+ 
+             <!-- Sağ Kısım: Arama Kutusu + Buton + Mobil Menü İkonu -->
+             <div class="flex items-center gap-4">
+-                
++
+                 <!-- YENİ: Global Arama Kutusu -->
+                 <div class="relative hidden lg:block group">
+-                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500 group-focus-within:text-sky-400 transition">🔍</span>
+-                    <input type="text" id="globalSearch" onkeyup="searchTable()" placeholder="Şirket, şehir ara..." class="bg-slate-950 border border-slate-700 text-sm rounded-full pl-10 pr-4 py-2 text-white focus:border-sky-500 outline-none w-48 transition-all duration-300 focus:w-72 shadow-inner">
+-                </div>
+-
+<truncated 2255 bytes>
+
+====
+
+The following changes were made by the USER to: c:\Users\EXCALIBUR\Desktop\GhostRadar\templates\index.html. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -4,74 +4,55 @@
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+-
+-    <!-- TEMEL SEO & ARAMA MOTORU ETİKETLERİ -->
+     <title>GhostRadar | Türkiye'nin İşe Alım Portalı</title>
+-    <meta name="description"
+-        content="Aday deneyimlerine dayalı bölgesel şeffaflık ve ghosting haritası. Hangi şirket mülakat sürecinde ne kadar şeffaf? Sürecini ekle, komüniteye katıl!">
+-    <meta name="keywords"
+-        content="işe alım, mülakat, ghosting, maaş beklentisi, teknik mülakat, insan kaynakları, tüpraş mülakat, aselsan mülakat, aday deneyimi">
+-    <meta name="author" content="GhostRadar">
+-    <meta name="robots" content="index, follow">
+-
+<truncated 5217 bytes>
+
+====
+
+The following changes were made by the USER to: c:\Users\EXCALIBUR\Desktop\GhostRadar\templates\index.html. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -112,83 +112,34 @@
+         .scrollbar-hide::-webkit-scrollbar {
+             display: none;
+         }
+-
+-        /* İstatistik Kartı Hover */
+-        .stat-card {
+-            transition: all 0.3s ease;
+-        }
+-
+-        .stat-card:hover {
+-            transform: translateY(-2px);
+-            border-color: #38bdf8;
+-            box-shadow: 0 10px 20px -10px rgba(56, 189, 248, 0.2);
+-        }
+     </style>
+ </head>
+ 
+-<body class="min-h-screen relative hero-gradient select-none">
+-
+-    <!-- Navbar (GÜNCELLENDİ: Mobil Uyumlu Hamburger Menü) -->
+-    <nav class="border-b border-slate-800 bg-slate-900/90 backdrop-blur-md sticky top-0 z-50 shadow-lg">
++<body class="min-h-screen relative hero-gradient">
++
+<truncated 63592 bytes>
+
+====
+
+The following changes were made by the USER to: c:\Users\EXCALIBUR\Desktop\GhostRadar\templates\index.html. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -17,9 +17,11 @@
+         }
+ 
+         .light-mode {
+-            --bg-body: #f8fafc; /* Kırık beyaz / Açık Gri (Göz yormaz) */
++            --bg-body: #f8fafc;
++            /* Kırık beyaz / Açık Gri (Göz yormaz) */
+             --bg-card: #ffffff;
+-            --text-main: #1e293b; /* Koyu lacivert/gri (Siyah kadar sert değil) */
++            --text-main: #1e293b;
++            /* Koyu lacivert/gri (Siyah kadar sert değil) */
+             --text-muted: #64748b;
+             --border-color: #e2e8f0;
+         }
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.
+
+====
+
+The following changes were made by the USER to: c:\Users\EXCALIBUR\Desktop\GhostRadar\templates\index.html. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -247,7 +247,11 @@
+                 <div>
+                     <h2 class="text-2xl font-black text-main mb-4">GhostRadar Nedir?</h2>
+                     <p class="text-muted text-sm leading-relaxed text-justify">
+-                        GhostRadar, Türkiye'deki yeteneklerin ve yeni mezunların mülakat süreçlerindeki şeffaflığı artırmak için kurulan anonim bir veri platformudur. Şirketlerin adaylara geri dönüş hızlarını, mülakat zorluk derecelerini ve sektörün en büyük problemi olan <strong class="text-main font-black">"Ghosting" (habersiz bırakma)</strong> oranlarını gerçek kullanıcı verileriyle haritalandırır.
++                        GhostRadar, Türkiye'deki yeteneklerin ve yeni mezunların mülakat süreçlerindeki şeffaflığı
+<truncated 734 bytes>
+
+====
+
+The following changes were made by the USER to: c:\Users\EXCALIBUR\Desktop\GhostRadar\templates\index.html. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+[diff_block_start]
+@@ -276,7 +276,8 @@
+                 </div>
+             </div>
+             <div class="text-center text-muted text-xs border-t border-main pt-6">
+-                <p>© 2026 GhostRadar. Tüm hakları saklıdır. Geliştirici: Yönetim Bilişim Sistemleri & Kontrol Otomasyon Vizyonu.</p>
++                <p>© 2026 GhostRadar. Tüm hakları saklıdır. Geliştirici: Yönetim Bilişim Sistemleri & Kontrol Otomasyon
++                    Vizyonu.</p>
+             </div>
+         </div>
+     </main>
+[diff_block_end]
+
+Please note that the above snippet only shows the MODIFIED lines from the last change. It shows up to 3 lines of unchanged lines before and after the modified lines. The actual file contents may have many more lines not shown.
+
+====
+

@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ company_name }} | GhostRadar Raporu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen p-4 md:p-8 relative">
+
+    <div class="max-w-6xl mx-auto">
+        <div class="flex justify-between items-center mb-8 border-b border-slate-700 pb-4">
+            <a href="/" class="text-slate-400 hover:text-sky-400 transition flex items-center gap-2">
+                <span>←</span> Ana Radara Dön
+            </a>
+            <div class="flex gap-3">
+                <button onclick="shareReport()"
+                    class="bg-indigo-600 hover:bg-indigo-500 text-white transition text-sm flex items-center gap-2 px-4 py-2 rounded-lg shadow-lg">
+                    🔗 Raporu Paylaş
+                </button>
+            </div>
+        </div>
+
+        <div class="flex flex-col md:flex-row gap-6 mb-8">
+            <div class="md:w-2/3">
+                <div class="flex items-center gap-6 mb-6">
+                    {% if company_domain %}
+                    <img src="https://logo.clearbit.com/{{ company_domain }}"
+                        onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name={{ company_name }}&background=0ea5e9&color=fff&size=128&rounded=true&bold=true&font-size=0.4';"
+                        alt="{{ company_name }} Logo"
+                        class="w-24 h-24 rounded-full shadow-[0_0_20px_rgba(255,255,255,0.1)] border-4 border-slate-800 object-contain bg-white p-2">
+                    {% else %}
+                    <img src="https://ui-avatars.com/api/?name={{ company_name }}&background=0ea5e9&color=fff&size=128&rounded=true&bold=true&font-size=0.4"
+                        alt="{{ company_name }} Logo"
+                        class="w-24 h-24 rounded-full shadow-[0_0_20px_rgba(14,165,233,0.4)] border-4 border-slate-800">
+                    {% endif %}
+
+                    <div>
+                        <h1 class="text-5xl font-extrabold text-white mb-2 flex items-center gap-3">
+                            {{ company_name }}
+                            {% if is_verified %}
+                            <span title="Aday Dostu Şirket (Düşük Ghosting)"
+                                class="inline-flex items-center justify-center w-8 h-8 bg-blue-500 text-white rounded-full shadow-[0_0_15px_rgba(59,130,246,0.6)] cursor-help">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                                        d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </span>
+                            {% endif %}
+                        </h1>
+                        <p class="text-slate-400 text-lg">Aday geri bildirimlerine dayalı anonim işe alım karnesi.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div class="bg-slate-800 border border-slate-700 px-6 py-4 rounded-xl shadow-lg">
+                        <p class="text-slate-400 text-xs uppercase tracking-wider">İncelenen Süreç</p>
+                        <p class="text-3xl font-bold text-sky-400">{{ total_apps }}</p>
+                    </div>
+                    <div class="bg-slate-800 border border-slate-700 px-6 py-4 rounded-xl shadow-lg">
+                        <p class="text-slate-400 text-xs uppercase tracking-wider">Ghosting Oranı</p>
+                        <p class="text-3xl font-bold text-rose-400">%{{ ghosting_rate }}</p>
+                    </div>
+                    <div class="bg-slate-800 border border-slate-700 px-6 py-4 rounded-xl shadow-lg hidden md:block">
+                        <p class="text-slate-400 text-xs uppercase tracking-wider">Güncelleme</p>
+                        <p class="text-xl font-bold text-emerald-400 mt-2">Canlı</p>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="md:w-1/3 bg-slate-800 border border-slate-700 rounded-xl p-4 shadow-lg flex flex-col justify-center items-center">
+                <h3 class="text-slate-400 text-sm font-bold mb-4 uppercase tracking-widest">Süreç Dağılımı</h3>
+                <div class="relative w-full max-w-[160px] aspect-square">
+                    <canvas id="companyChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div
+            class="bg-gradient-to-r from-slate-800 to-slate-900 border border-indigo-500/30 rounded-2xl p-6 shadow-xl mb-10 relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-4 opacity-10 text-6xl">🤖</div>
+            <h3 class="text-xl font-bold text-indigo-400 flex items-center gap-2 mb-3">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+                AI Kültür ve Mülakat Özeti
+            </h3>
+            <p id="ai-text" class="text-slate-300 leading-relaxed text-sm md:text-base relative z-10 mb-5">
+                <span class="text-sky-400 italic animate-pulse">GhostRadar AI aday deneyimlerini analiz ediyor...
+                    ⏳</span>
+            </p>
+
+            <div class="relative z-10 border-t border-slate-700/50 pt-5">
+                <button onclick="getAICoach()" id="coach-btn"
+                    class="w-full bg-slate-800 hover:bg-slate-700 border border-emerald-500/30 text-emerald-400 font-bold py-3 px-4 rounded-xl transition flex justify-center items-center gap-2 shadow-lg">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z">
+                        </path>
+                    </svg>
+                    AI Mülakat Koçu: Bana Özel Tüyolar Ver
+                </button>
+                <div id="coach-results"
+                    class="hidden bg-emerald-900/20 border border-emerald-500/30 rounded-xl p-5 shadow-inner">
+                    <h4 class="text-emerald-400 font-bold mb-4 flex items-center gap-2 text-lg">🎯 Taktiksel Hazırlık
+                        Rehberi</h4>
+                    <ul id="coach-list" class="space-y-4 text-slate-300 text-sm md:text-base">
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-10">
+            <h2 class="text-2xl font-bold text-sky-400 mb-6 flex items-center gap-2">💬 Adayların Süreç Deneyimleri</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {% set has_comments = false %}
+                {% for app in applications %}
+                {% if app.experience_text and app.experience_text|trim != '' %}
+                {% set has_comments = true %}
+
+                {% set is_gold = app.upvotes and app.upvotes >= 5 %}
+                {% set is_troll = app.flags and app.flags >= 3 %}
+
+                <div
+                    class="p-5 rounded-r-xl shadow-md transition flex flex-col justify-between border-l-4 
+                    {% if is_gold %} bg-amber-900/20 border-amber-400 shadow-[0_0_15px_rgba(251,191,36,0.2)] {% else %} bg-slate-800 border-sky-500 hover:bg-slate-750 {% endif %}">
+
+                    <div class="{% if is_troll %} blur-sm hover:blur-none transition duration-500 cursor-help {% endif %}"
+                        title="{% if is_troll %}Bu yorum topluluk tarafından şüpheli bulundu. Görmek için üzerine gelin.{% endif %}">
+                        <div class="flex justify-between items-start mb-3">
+                            <span
+                                class="{% if is_gold %}text-amber-400{% else %}text-slate-200{% endif %} font-bold text-sm flex items-center gap-2">
+                                {{ app.program_name }}
+                                {% if is_gold %}<span
+                                    class="text-xs bg-amber-400 text-amber-900 px-2 py-0.5 rounded-full uppercase tracking-wider">Kral
+                                    Yorum</span>{% endif %}
+                            </span>
+                            <span class="text-slate-500 text-xs">{{ app.application_month }}</span>
+                        </div>
+                        <p class="text-slate-300 text-sm italic mb-4">"{{ app.experience_text }}"</p>
+                    </div>
+
+                    <div class="flex justify-between items-center border-t border-slate-700/50 pt-3 mt-auto">
+                        <div class="flex gap-2">
+                            <button onclick="vote({{ app.id }}, 'upvote', this)"
+                                class="flex items-center gap-1 text-xs font-bold bg-slate-900/50 hover:bg-emerald-500/20 text-emerald-400/70 hover:text-emerald-400 border border-slate-700 hover:border-emerald-500/50 px-2 py-1 rounded transition">
+                                👍 <span class="upvote-count">{{ app.upvotes or 0 }}</span>
+                            </button>
+                            <button onclick="vote({{ app.id }}, 'flag', this)"
+                                class="flex items-center gap-1 text-xs font-bold bg-slate-900/50 hover:bg-rose-500/20 text-rose-400/70 hover:text-rose-400 border border-slate-700 hover:border-rose-500/50 px-2 py-1 rounded transition">
+                                🚩 <span class="flag-count">{{ app.flags or 0 }}</span>
+                            </button>
+                        </div>
+
+                        <div class="flex items-center gap-3">
+                            <span class="text-xs font-bold text-amber-400 hidden sm:inline-block">Zorluk: {{
+                                app.difficulty }}/5</span>
+                            <span class="text-xs font-bold px-3 py-1.5 rounded-full bg-slate-900 shadow-inner
+                                    {% if app.status == 'Bekliyor' %}text-amber-400
+                                    {% elif app.status == 'Ghostlandı' %}text-rose-500
+                                    {% elif app.status == 'Olumlu Dönüş' %}text-emerald-400
+                                    {% else %}text-slate-400{% endif %}">
+                                {{ app.status }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+
+                {% if not has_comments %}
+                <div
+                    class="col-span-1 md:col-span-2 bg-slate-800/50 border border-slate-700 border-dashed rounded-xl p-8 text-center">
+                    <p class="text-slate-500">Bu şirket için henüz bir mülakat deneyimi yazılmamış. İlk yazan sen ol!
+                    </p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- YENİ EKLENEN: ŞİRKETE ÖZEL PULSE (CANLI SOHBET ODASI) -->
+        <div
+            class="mt-12 bg-slate-900 border border-slate-800 rounded-3xl p-6 md:p-8 shadow-2xl flex flex-col h-[400px] relative overflow-hidden group">
+            <div
+                class="absolute top-0 right-0 w-40 h-40 bg-emerald-500/5 rounded-full blur-3xl transition duration-700 group-hover:bg-emerald-500/10">
+            </div>
+
+            <h3
+                class="font-bold mb-6 text-emerald-400 flex items-center justify-between z-10 border-b border-slate-800 pb-4">
+                <div class="flex items-center gap-3">
+                    <span class="relative flex h-2.5 w-2.5">
+                        <span
+                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                    </span>
+                    <span class="text-lg">{{ company_name }} Canlı Odası</span>
+                </div>
+                <span
+                    class="text-[10px] bg-slate-800 border border-slate-700 text-slate-400 px-3 py-1.5 rounded-full uppercase tracking-wider hidden sm:block">
+                    Sadece Bu Şirkete Başvuranlar
+                </span>
+            </h3>
+
+            <!-- Mesajların Akacağı Kısım -->
+            <div id="company-pulse-list" class="flex-1 overflow-y-auto space-y-4 mb-5 scrollbar-hide text-sm pr-2 z-10">
+                <!-- JS ile Doldurulacak -->
+            </div>
+
+            <!-- Mesaj Gönderme Formu -->
+            <form id="company-pulse-form" class="flex gap-3 relative z-10">
+                <input type="text" id="company-pulse-input"
+                    placeholder="{{ company_name }} mülakatları hakkında anonim bir şey yaz..."
+                    class="flex-1 bg-slate-800 border border-slate-700 rounded-xl px-5 py-3 text-sm focus:outline-none focus:border-emerald-500 text-white font-medium shadow-inner placeholder-slate-500"
+                    required>
+                <button type="submit"
+                    class="bg-emerald-500 hover:bg-emerald-400 px-6 rounded-xl transition shadow-lg text-slate-900 font-bold flex items-center gap-2">
+                    Gönder <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                    </svg>
+                </button>
+            </form>
+        </div>
+
+        <div class="bg-slate-800 rounded-2xl p-6 shadow-2xl border border-slate-700">
+            <h2 class="text-xl font-bold text-emerald-400 mb-4">📝 Tüm Anonim Bildirimler</h2>
+            <div class="overflow-x-auto rounded-xl border border-slate-700">
+                <table class="w-full text-left border-collapse">
+                    <thead class="bg-slate-900">
+                        <tr class="text-slate-400 text-sm uppercase tracking-wider">
+                            <th class="py-4 px-6 font-medium">Program</th>
+                            <th class="py-4 px-6 font-medium">Ay</th>
+                            <th class="py-4 px-6 font-medium text-right">Durum</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-slate-200 divide-y divide-slate-700/50">
+                        {% for app in applications %}
+                        <tr class="hover:bg-slate-750 transition">
+                            <td class="py-4 px-6 font-semibold text-white">{{ app.program_name }}</td>
+                            <td class="py-4 px-6 text-slate-400">{{ app.application_month }}</td>
+                            <td class="py-4 px-6 text-right font-bold 
+                                {% if app.status == 'Bekliyor' %}text-amber-400
+                                {% elif app.status == 'Ghostlandı' %}text-rose-500
+                                {% elif app.status == 'Olumlu Dönüş' %}text-emerald-400
+                                {% else %}text-slate-400{% endif %}">
+                                {{ app.status }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast"
+        class="fixed bottom-5 right-5 transform translate-y-20 opacity-0 bg-slate-800 border border-emerald-500/50 text-emerald-400 px-6 py-4 rounded-xl shadow-[0_0_20px_rgba(16,185,129,0.2)] flex items-center gap-3 transition-all duration-300 z-50">
+        <span class="font-bold">Bağlantı kopyalandı!</span>
+    </div>
+
+    <script>
+        function shareReport() {
+            const url = window.location.href;
+            navigator.clipboard.writeText(url).then(() => {
+                const toast = document.getElementById('toast');
+                toast.classList.remove('translate-y-20', 'opacity-0');
+                setTimeout(() => { toast.classList.add('translate-y-20', 'opacity-0'); }, 3000);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const companyName = "{{ company_name }}";
+            fetch('/api/ai_summary/' + encodeURIComponent(companyName))
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById('ai-text').innerHTML = data.summary;
+                })
+                .catch(err => {
+                    document.getElementById('ai-text').innerHTML = "Analiz şu an yapılamıyor.";
+                });
+        });
+
+        // YENİ: AI Koçunu Tetikleyen Fonksiyon
+        function getAICoach() {
+            const btn = document.getElementById('coach-btn');
+            const results = document.getElementById('coach-results');
+            const list = document.getElementById('coach-list');
+            const companyName = "{{ company_name }}";
+
+            btn.innerHTML = "Strateji Oluşturuluyor... ⏳";
+            btn.disabled = true;
+
+            fetch('/api/ai_coach/' + encodeURIComponent(companyName))
+                .then(res => res.json())
+                .then(data => {
+                    list.innerHTML = '';
+                    data.tips.forEach((tip, index) => {
+                        list.innerHTML += `<li class="flex items-start gap-3"><span class="text-emerald-500 font-black text-lg bg-emerald-500/10 px-2 py-0.5 rounded">${index + 1}</span> <span class="pt-0.5">${tip}</span></li>`;
+                    });
+                    btn.classList.add('hidden');
+                    results.classList.remove('hidden');
+                });
+        }
+
+        const chartData = {{ status_counts | tojson }};
+        const ctx = document.getElementById('companyChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Bekliyor', 'Olumlu', 'Olumsuz', 'Ghostlandı'],
+                datasets: [{
+                    data: [
+                        chartData['Bekliyor'] || 0,
+                        chartData['Olumlu Dönüş'] || 0,
+                        chartData['Olumsuz Dönüş'] || 0,
+                        chartData['Ghostlandı'] || 0
+                    ],
+                    backgroundColor: ['#fbbf24', '#34d399', '#94a3b8', '#f43f5e'],
+                    borderWidth: 0,
+                    hoverOffset: 4
+                }]
+            },
+            options: { cutout: '75%', plugins: { legend: { display: false } } }
+        });
+        // YENİ: Reddit Tarzı Oylama Sistemi
+        function vote(appId, action, btnElement) {
+            // Butona tıklandığını belli et (spamı önlemek için buton devre dışı)
+            btnElement.disabled = true;
+            btnElement.classList.add('opacity-50');
+
+            fetch(`/api/vote/${appId}/${action}`, { method: 'POST' })
+                .then(res => res.json())
+                .then(data => {
+                    if (!data.error) {
+                        // Rakamları ekranda anlık güncelle
+                        const parent = btnElement.parentElement;
+                        parent.querySelector('.upvote-count').innerText = data.upvotes;
+                        parent.querySelector('.flag-count').innerText = data.flags;
+
+                        // Şık animasyon
+                        btnElement.classList.remove('opacity-50');
+                        btnElement.classList.add('scale-110');
+                        setTimeout(() => btnElement.classList.remove('scale-110'), 200);
+
+                        if (action === 'flag' && data.flags === 3) {
+                            alert("Bu yorum topluluk tarafından şüpheli olarak işaretlendi ve gizlendi.");
+                            location.reload(); // Bluru uygulamak için yenile
+                        }
+                    }
+                });
+        }
+
+        // YENİ: ŞİRKETE ÖZEL PULSE (CANLI ODA) MANTIĞI
+        const currentCompanyName = "{{ company_name }}";
+
+        function loadCompanyPulse() {
+            fetch(`/api/pulse?company=${encodeURIComponent(currentCompanyName)}`)
+                .then(res => res.json())
+                .then(data => {
+                    const list = document.getElementById('company-pulse-list');
+
+                    // Eğer hiç mesaj yoksa
+                    if (data.length === 0) {
+                        list.innerHTML = `
+                        <div class="h-full flex flex-col items-center justify-center text-slate-500 text-center opacity-60">
+                            <span class="text-4xl mb-3">🤫</span>
+                            <p class="text-sm font-bold">Bu şirketin odası şu an sessiz.</p>
+                            <p class="text-xs">Süreçle ilgili bir şey sor, ilk mesajı sen at!</p>
+                        </div>`;
+                        return;
+                    }
+
+                    // Mesajlar varsa ekrana bas
+                    list.innerHTML = data.map(m => `
+                    <div class="bg-slate-800/40 p-4 rounded-2xl border border-slate-700/50 hover:bg-slate-800 transition">
+                        <p class="text-slate-200 leading-relaxed">"${m.message}"</p>
+                        <span class="text-[10px] text-slate-500 block mt-2 text-right font-bold uppercase tracking-wider">${new Date(m.timestamp).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })}</span>
+                    </div>
+                `).join('');
+                });
+        }
+
+        // Mesaj Gönderme İşlemi
+        document.getElementById('company-pulse-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const input = document.getElementById('company-pulse-input');
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            // Backend'e mesajı ve şirket adını yolla
+            fetch('/api/pulse/send', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: msg, company: currentCompanyName })
+            }).then(() => {
+                input.value = ''; // Kutuyu temizle
+                loadCompanyPulse(); // Listeyi anında yenile
+            });
+        });
+
+        // Odayı her 5 saniyede bir güncelle (Canlı hissi)
+        setInterval(loadCompanyPulse, 5000);
+
+        // Sayfa açıldığında ilk yüklemeyi yap
+        loadCompanyPulse();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GhostRadar | Şirketleri Çarpıştır</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #0b1120;
+            color: #f8fafc;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .hero-gradient {
+            background: radial-gradient(circle at top right, #1e293b, #0b1120);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen relative hero-gradient select-none">
+
+    <nav class="border-b border-slate-800 bg-slate-900/90 backdrop-blur-md sticky top-0 z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-8">
+                <a href="/" class="hover:scale-105 transition-transform block">
+                    <h1 class="text-2xl font-black text-sky-400 tracking-tighter"
+                        style="text-shadow: 0 0 15px rgba(56, 189, 248, 0.4);">GHOSTRADAR 🕵️‍♂️</h1>
+                </a>
+                <div class="hidden md:flex gap-6 text-sm font-bold text-slate-400">
+                    <a href="/" class="hover:text-white transition">Radar Haritası</a>
+                    <a href="/siralamalar" class="hover:text-white transition">Sıralamalar</a>
+                    <a href="/karsilastir" class="text-white border-b-2 border-sky-500 pb-1">Karşılaştır</a>
+                    <a href="/panom" class="hover:text-white transition text-fuchsia-400">Panom 📌</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-5xl mx-auto px-6 py-12">
+        <div class="text-center mb-10">
+            <a href="/" class="text-slate-400 hover:text-sky-400 text-sm mb-4 inline-block transition">← Radara Dön</a>
+            <h2 class="text-4xl font-black text-white mb-3">⚔️ Şirketleri Karşılaştır</h2>
+            <p class="text-slate-400">Hangi şirket staj/iş başvurusu için daha avantajlı? 5 farklı boyutta analiz edin.
+            </p>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 md:p-10 shadow-2xl relative mb-10">
+            <div
+                class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-slate-950 border-4 border-slate-800 text-white font-black rounded-full w-14 h-14 flex items-center justify-center z-10 shadow-lg">
+                VS</div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="bg-sky-500/5 border border-sky-500/20 p-6 rounded-2xl relative">
+                    <div class="absolute top-0 right-0 w-20 h-20 bg-sky-500/10 rounded-full blur-2xl"></div>
+                    <label class="block text-sky-400 font-bold mb-2 uppercase tracking-wider text-sm">1. Şirket (Mavi
+                        Köşe)</label>
+                    <select id="company1"
+                        class="w-full bg-slate-950 border border-slate-700 text-white p-3 rounded-xl focus:border-sky-500 outline-none">
+                        <option value="">-- Şirket Seç --</option>
+                        {% for comp in companies %}<option value="{{ comp.company_name }}">{{ comp.company_name }}
+                        </option>{% endfor %}
+                    </select>
+                </div>
+
+                <div class="bg-rose-500/5 border border-rose-500/20 p-6 rounded-2xl relative">
+                    <div class="absolute top-0 right-0 w-20 h-20 bg-rose-500/10 rounded-full blur-2xl"></div>
+                    <label class="block text-rose-400 font-bold mb-2 uppercase tracking-wider text-sm">2. Şirket
+                        (Kırmızı Köşe)</label>
+                    <select id="company2"
+                        class="w-full bg-slate-950 border border-slate-700 text-white p-3 rounded-xl focus:border-rose-500 outline-none">
+                        <option value="">-- Şirket Seç --</option>
+                        {% for comp in companies %}<option value="{{ comp.company_name }}">{{ comp.company_name }}
+                        </option>{% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <button onclick="compareCompanies()"
+                class="w-full mt-8 bg-gradient-to-r from-sky-500 via-indigo-500 to-rose-500 hover:opacity-90 text-white font-black py-4 rounded-xl shadow-lg transition transform hover:-translate-y-1">
+                Verileri Çarpıştır 💥
+            </button>
+        </div>
+
+        <div id="result-container"
+            class="hidden bg-slate-900 border border-slate-800 rounded-3xl p-6 md:p-10 shadow-2xl">
+            <h3 class="text-xl font-bold text-white text-center mb-8">📊 Radar (Spider) Analizi</h3>
+
+            <div class="flex flex-col md:flex-row items-center justify-center gap-10">
+                <div class="w-full md:w-1/2 relative h-[350px]">
+                    <canvas id="compareChart"></canvas>
+                </div>
+
+                <div class="w-full md:w-1/2 space-y-4">
+                    <div class="bg-slate-950 border border-slate-800 p-5 rounded-2xl">
+                        <h4 class="text-sky-400 font-bold border-b border-slate-800 pb-2 mb-3" id="name1">Şirket 1</h4>
+                        <div class="grid grid-cols-2 gap-2 text-sm text-slate-300">
+                            <p>Toplam Veri: <span class="font-bold text-white" id="t1"></span></p>
+                            <p>Şeffaflık: <span class="font-bold text-white" id="sf1"></span></p>
+                            <p>Zorluk: <span class="font-bold text-white" id="z1"></span></p>
+                            <p>Saygı: <span class="font-bold text-white" id="sg1"></span></p>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-950 border border-slate-800 p-5 rounded-2xl">
+                        <h4 class="text-rose-400 font-bold border-b border-slate-800 pb-2 mb-3" id="name2">Şirket 2</h4>
+                        <div class="grid grid-cols-2 gap-2 text-sm text-slate-300">
+                            <p>Toplam Veri: <span class="font-bold text-white" id="t2"></span></p>
+                            <p>Şeffaflık: <span class="font-bold text-white" id="sf2"></span></p>
+                            <p>Zorluk: <span class="font-bold text-white" id="z2"></span></p>
+                            <p>Saygı: <span class="font-bold text-white" id="sg2"></span></p>
+                        </div>
+                    </div>
+
+                    <div id="ai-verdict"
+                        class="bg-indigo-500/10 border border-indigo-500/30 p-4 rounded-xl text-sm text-indigo-300 italic">
+                        Yapay zeka analiz ediyor...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let myChart = null;
+
+        function compareCompanies() {
+            const c1 = document.getElementById('company1').value;
+            const c2 = document.getElementById('company2').value;
+
+            if (!c1 || !c2) { alert("Lütfen karşılaştırmak için iki şirket seçin!"); return; }
+            if (c1 === c2) { alert("Farklı şirketler seçmelisiniz!"); return; }
+
+            Promise.all([
+                fetch('/api/company/' + encodeURIComponent(c1)).then(res => res.json()),
+                fetch('/api/company/' + encodeURIComponent(c2)).then(res => res.json())
+            ]).then(([data1, data2]) => {
+                document.getElementById('result-container').classList.remove('hidden');
+
+                // Verileri Ekrana Bas
+                document.getElementById('name1').innerText = c1;
+                document.getElementById('t1').innerText = data1.total;
+                document.getElementById('sf1').innerText = '% ' + data1.seffaflik;
+                document.getElementById('z1').innerText = '% ' + data1.zorluk;
+                document.getElementById('sg1').innerText = '% ' + data1.saygi;
+
+                document.getElementById('name2').innerText = c2;
+                document.getElementById('t2').innerText = data2.total;
+                document.getElementById('sf2').innerText = '% ' + data2.seffaflik;
+                document.getElementById('z2').innerText = '% ' + data2.zorluk;
+                document.getElementById('sg2').innerText = '% ' + data2.saygi;
+
+                // AI Yorumu
+                let verdict = "";
+                if (data1.saygi > data2.saygi) verdict = `Genel aday deneyimi açısından <b>${c1}</b>, ${c2}'ye kıyasla daha çok saygı görüyor.`;
+                else if (data2.saygi > data1.saygi) verdict = `Genel aday deneyimi açısından <b>${c2}</b>, ${c1}'e kıyasla daha aday dostu bir imaj çiziyor.`;
+                else verdict = `İki şirketin de genel aday saygı endeksi kafa kafaya!`;
+
+                if (data1.zorluk > data2.zorluk + 10) verdict += ` Ancak ${c1} mülakatlarının belirgin şekilde daha zorlayıcı olduğunu unutmayın.`;
+                else if (data2.zorluk > data1.zorluk + 10) verdict += ` Ancak ${c2} mülakatlarının belirgin şekilde daha zorlayıcı olduğunu unutmayın.`;
+
+                document.getElementById('ai-verdict').innerHTML = `🤖 GhostRadar Kararı: ${verdict}`;
+
+                // Spider Chart (Radar)
+                const ctx = document.getElementById('compareChart').getContext('2d');
+                if (myChart) myChart.destroy();
+
+                myChart = new Chart(ctx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['Şeffaflık (No Ghosting)', 'Olumlu Dönüş', 'İletişim Hızı', 'Saygı Endeksi', 'Mülakat Zorluğu'],
+                        datasets: [
+                            {
+                                label: c1,
+                                data: [data1.seffaflik, data1.olumlu, data1.iletisim, data1.saygi, data1.zorluk],
+                                backgroundColor: 'rgba(56, 189, 248, 0.2)',
+                                borderColor: 'rgba(56, 189, 248, 1)',
+                                pointBackgroundColor: 'rgba(56, 189, 248, 1)',
+                                borderWidth: 2
+                            },
+                            {
+                                label: c2,
+                                data: [data2.seffaflik, data2.olumlu, data2.iletisim, data2.saygi, data2.zorluk],
+                                backgroundColor: 'rgba(244, 63, 94, 0.2)',
+                                borderColor: 'rgba(244, 63, 94, 1)',
+                                pointBackgroundColor: 'rgba(244, 63, 94, 1)',
+                                borderWidth: 2
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true, maintainAspectRatio: false,
+                        scales: {
+                            r: {
+                                angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
+                                grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                                pointLabels: { color: '#94a3b8', font: { size: 11, family: 'Inter' } },
+                                ticks: { display: false, min: 0, max: 100 }
+                            }
+                        },
+                        plugins: { legend: { position: 'bottom', labels: { color: '#f8fafc', font: { weight: 'bold' } } } }
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+
+</html>
