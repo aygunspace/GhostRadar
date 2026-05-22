@@ -259,7 +259,7 @@
                         <span class="text-2xl mb-2">🕵️‍♂️💎</span>
                         <h4 class="font-black text-sm text-white uppercase tracking-wider mb-1">Departman Kırılımlı Gelişmiş Analiz</h4>
                         <p class="text-xs text-slate-400 max-w-sm mb-4">Hangi şirketin hangi departmanı (Yazılım, İK, Pazarlama) daha hızlı dönüyor? VIP Ajan rütbesine yüksel, kör noktaları yok et.</p>
-                        <button onclick="showToast('Ödeme altyapısı yakında entegre edilecektir! Aylık sadece 49 TL.', 'success')" class="bg-gradient-to-r from-fuchsia-600 to-purple-600 hover:from-fuchsia-500 hover:to-purple-500 text-white font-black text-xs px-6 py-2.5 rounded-full transition shadow-lg shadow-fuchsia-500/20">
+                        <button onclick="openCheckout()" class="bg-gradient-to-r from-fuchsia-600 to-purple-600 hover:from-fuchsia-500 hover:to-purple-500 text-white font-black text-xs px-6 py-2.5 rounded-full transition shadow-lg shadow-fuchsia-500/20">
                             Aylık 49 TL'ye PRO'ya Yüksel ✨
                         </button>
                     </div>
@@ -279,7 +279,7 @@
                     <span class="bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded text-[8px] font-black tracking-widest uppercase block w-max mb-3">Öne Çıkan Fırsat</span>
                     <h4 class="font-black text-sm text-white mb-1">ABB Türkiye - Kontrol Mühendisi Adayı</h4>
                     <p class="text-xs text-slate-400 mb-4">Industrial Automation departmanında yetiştirilmek üzere yeni mezunlar aranıyor.</p>
-                    <a href="https://abb.com" target="_blank" class="block text-center bg-amber-500 hover:bg-amber-400 text-slate-900 font-black text-xs py-2 rounded-xl transition shadow-lg">Detayları Gör ve Başvur 🚀</a>
+                    <a href="https://www.linkedin.com/jobs/search/?keywords=ABB%20Kontrol%20M%C3%BChendisi&location=Turkey" target="_blank" class="block text-center bg-amber-500 hover:bg-amber-400 text-slate-900 font-black text-xs py-2 rounded-xl transition shadow-lg">Detayları Gör ve Başvur 🚀</a>
                 </div>
                 <div class="bg-rose-950/10 border border-rose-500/30 rounded-2xl p-6 relative overflow-hidden">
                     <h3
@@ -421,6 +421,39 @@
                 <button type="submit" class="w-full bg-sky-500 hover:bg-sky-400 text-white font-bold py-3 rounded-xl shadow-lg transition">Gönder
                     🚀</button>
                 <button type="button" onclick="closeModal()" class="w-full text-slate-500 hover:text-slate-300 text-xs mt-2 transition">İptal</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="checkoutModal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-700 rounded-3xl p-8 max-w-md w-full shadow-2xl relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-fuchsia-600 to-purple-600"></div>
+            <button onclick="closeCheckout()" class="absolute top-4 right-4 text-slate-400 hover:text-white">✕</button>
+            <h2 class="text-2xl font-black text-white mb-2 flex items-center gap-2">💎 PRO'ya Geçiş</h2>
+            <p class="text-slate-400 text-sm mb-6">Departman bazlı ghosting analizlerine anında eriş.</p>
+            
+            <div class="bg-slate-800 rounded-xl p-4 mb-6 border border-slate-700">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-white font-bold">GhostRadar PRO Aboneliği</span>
+                    <span class="text-fuchsia-400 font-black">49.00 TL <span class="text-xs text-slate-500">/ay</span></span>
+                </div>
+                <ul class="text-xs text-slate-400 space-y-1">
+                    <li>✓ Şirket İK vs Teknik departman hız analizi</li>
+                    <li>✓ Ghostlanma risk haritası</li>
+                    <li>✓ Gizli yorumları okuma yetkisi</li>
+                </ul>
+            </div>
+            
+            <form id="checkout-form" class="space-y-4">
+                <input type="text" placeholder="Kart Üzerindeki İsim" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white text-sm" required>
+                <input type="text" placeholder="Kart Numarası (0000 0000 0000 0000)" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white text-sm" required>
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="text" placeholder="SKT (AA/YY)" class="bg-slate-800 border border-slate-700 rounded-xl p-3 text-white text-sm" required>
+                    <input type="text" placeholder="CVC" class="bg-slate-800 border border-slate-700 rounded-xl p-3 text-white text-sm" required>
+                </div>
+                <button type="submit" class="w-full bg-gradient-to-r from-fuchsia-600 to-purple-600 hover:from-fuchsia-500 hover:to-purple-500 text-white font-black py-3 rounded-xl shadow-[0_0_15px_rgba(192,38,211,0.4)] transition mt-2">
+                    Güvenli Ödeme Yap 🔒
+                </button>
             </form>
         </div>
     </div>
@@ -652,6 +685,16 @@
         function openModal() { document.getElementById('dataModal').classList.remove('hidden'); genCaptcha(); }
         function closeModal() { document.getElementById('dataModal').classList.add('hidden'); }
         function openSurprise() { document.getElementById('surpriseModal').classList.remove('hidden'); }
+        
+        function openCheckout() { document.getElementById('checkoutModal').classList.remove('hidden'); }
+        function closeCheckout() { document.getElementById('checkoutModal').classList.add('hidden'); }
+        
+        document.getElementById('checkout-form').onsubmit = function(e) {
+            e.preventDefault();
+            closeCheckout();
+            showToast("Ödeme simülasyonu başarılı! (Demo Mod)", "success");
+            // Gelecekte burada PRO özellikler aktifleşecek
+        };
 
         // Start
         loadData(); updateRank();
