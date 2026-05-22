@@ -1,5 +1,6 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, Response
 import sqlite3
+import csv
 
 app = Flask(__name__)
 
@@ -186,6 +187,43 @@ def get_stats():
     ''').fetchall()
     conn.close()
     return jsonify([dict(row) for row in applications])
+
+# YENİ: B2B İK Raporu Çıktı Üreticisi (Vizyon 3)
+@app.route('/api/export/b2b-report')
+def export_b2b_report():
+    conn = get_db_connection()
+    
+    # Şirketlere göre verileri grupla ve analiz et (SQL Aggregation)
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT c.company_name,
+               COUNT(*) as total_applications,
+               SUM(CASE WHEN a.status = 'Ghostlandı' THEN 1 ELSE 0 END) as ghost_count,
+               SUM(CASE WHEN a.status = 'Olumlu Dönüş' THEN 1 ELSE 0 END) as success_count
+        FROM Applications a
+        JOIN Companies c ON a.company_id = c.id
+        GROUP BY c.company_name
+        ORDER BY ghost_count DESC
+    ''')
+    data = cursor.fetchall()
+    conn.close()
+
+    # Veriyi CSV (Excel) formatına dönüştüren Generator
+    def generate():
+        # Rapor Başlıkları (Sütunlar)
+        yield 'Sirket,Toplam_Basvuru,Ghosting_Vakasi,Olumlu_Donus,Ghosting_Orani(%)\n'
+        
+        # Verileri Satır Satır İşle
+        for row in data:
+            company = row['company_name']
+            total = row['total_applications']
+            ghost = row['ghost_count']
+            success = row['success_count']
+            rate = round((ghost / total) * 100) if total > 0 else 0
+            yield f'{company},{total},{ghost},{success},{rate}\n'
+
+    # Dosyayı tarayıcıya "İndirilebilir Rapor" olarak gönder
+    return Response(generate(), mimetype='text/csv', headers={'Content-Disposition': 'attachment; filename=GhostRadar_Yetenek_Kaybi_Raporu_Q3_2026.csv'})
 
 @app.route('/api/add', methods=['POST'])
 def add_entry():
