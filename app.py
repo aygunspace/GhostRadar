@@ -49,7 +49,7 @@ def setup_database():
     except: pass
         
     count = cursor.execute("SELECT COUNT(*) FROM Applications").fetchone()[0]
-    if count <= 25:
+    if count <= 50:
         cursor.execute("DELETE FROM Applications")
         cursor.execute("DELETE FROM Companies")
         import random
@@ -63,10 +63,9 @@ def setup_database():
             ('Baykar', 'Savunma Sanayi', ['İstanbul'], ['Uçuş Kontrol Mühendisi', 'Yazılım Mühendisi', 'Mekanik Tasarım Mühendisi']),
             ('Trendyol', 'E-Ticaret', ['İstanbul', 'Remote', 'Ankara'], ['Yazılım Mühendisi', 'Veri Bilimcisi', 'Ürün Yöneticisi', 'Stajyer']),
             ('Getir', 'Teknoloji & Yazılım', ['İstanbul', 'Remote'], ['Yazılım Mühendisi', 'Veri Analisti', 'Backend Mühendisi', 'Operasyon Uzmanı']),
-            ('Ford Otosan', 'Otomotiv', ['Kocaeli', 'İstanbul'], ['Otomotiv Mühendisi', 'Üretim Mühendisi', 'Ar-Ge Mühendisi', 'MT Programı']),
+            ('Ford Otosan', 'Otomotiv', ['Kocaeli', 'İstanbul', 'Eskişehir'], ['Otomotiv Mühendisi', 'Üretim Mühendisi', 'Ar-Ge Mühendisi', 'MT Programı']),
             ('Koç Holding', 'Diğer', ['İstanbul'], ['Geleceğim Koç Uzun Dönem Staj', 'MT Programı', 'Finans Uzmanı']),
             ('Akbank', 'Finans & Bankacılık', ['İstanbul', 'Kocaeli'], ['MT Programı', 'Veri Analisti', 'Yazılım Geliştirici']),
-            ('Adatech', 'Teknoloji & Yazılım', ['İstanbul', 'Ankara', 'İzmir'], ['Yazılım Mühendisi', 'Frontend Developer', 'Stajyer']),
             ('Acciona', 'Enerji', ['İstanbul', 'Ankara'], ['Enerji Sistemleri Mühendisi', 'Proje Mühendisi']),
             ('Anadolu Isuzu', 'Otomotiv', ['Kocaeli'], ['Üretim Mühendisi', 'Kalite Mühendisi', 'Tasarım Mühendisi'])
         ]
