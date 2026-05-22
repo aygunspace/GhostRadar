@@ -120,6 +120,10 @@
                 </div>
 
                 <!-- YENİ: Dinamik Rütbe Rozeti -->
+                <h3 class="font-bold mb-3 flex items-center gap-2">
+                    🔍 Yapay Zeka Öngörü Modülü & Sektörel Büyük Veri
+                    <span class="bg-fuchsia-600 text-white px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider shadow-[0_0_10px_rgba(192,38,211,0.5)]">PRO B2B</span>
+                </h3>
                 <div class="hidden sm:flex flex-col items-end mr-2">
                     <span class="text-[9px] text-slate-500 font-bold uppercase tracking-widest">Ajan Statüsü</span>
                     <span id="user-rank-badge" class="text-xs bg-slate-800/80 text-fuchsia-400 px-3 py-1 rounded-md border border-fuchsia-500/30 shadow-[0_0_10px_rgba(192,38,211,0.2)]">Çaylak Gözlemci</span>
@@ -272,7 +276,7 @@
                     </select>
                 </div>
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left">
+                    <table class="w-full text-left whitespace-nowrap">
                         <thead class="text-slate-400 text-[10px] font-black uppercase border-b border-slate-800">
                             <tr>
                                 <th class="pb-3">Şirket</th>
@@ -288,8 +292,8 @@
                 <!-- PRO Kilit Kutusu -->
                 <div class="mt-8 bg-slate-800/50 border border-slate-700 rounded-2xl p-6 relative overflow-hidden">
                     <div class="absolute inset-0 bg-slate-950/40 backdrop-blur-[4px] z-10 flex flex-col items-center justify-center text-center p-4">
-                        <span class="text-2xl mb-2">🕵️‍♂️💎</span>
-                        <h4 class="font-black text-sm text-white uppercase tracking-wider mb-1">Departman Kırılımlı Gelişmiş Analiz</h4>
+                        <span class="bg-amber-500 text-amber-950 px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider mb-3 shadow-[0_0_10px_rgba(245,158,11,0.5)]">Premium Veri Seti</span>
+                        <h4 class="font-black text-sm md:text-base text-white uppercase tracking-wider mb-2">Departman Kırılımlı Gelişmiş Analiz</h4>
                         <p class="text-xs text-slate-400 max-w-sm mb-4">Hangi şirketin hangi departmanı (Yazılım, İK, Pazarlama) daha hızlı dönüyor? VIP Ajan rütbesine yüksel, kör noktaları yok et.</p>
                         <button onclick="openCheckout()" class="bg-gradient-to-r from-fuchsia-600 to-purple-600 hover:from-fuchsia-500 hover:to-purple-500 text-white font-black text-xs px-6 py-2.5 rounded-full transition shadow-lg shadow-fuchsia-500/20">
                             Aylık 49 TL'ye PRO'ya Yüksel ✨
@@ -399,7 +403,9 @@
                     </div>
                     <p id="ai-prediction-box" class="text-xs text-slate-300 italic">Aşağıdaki tablodan bir şirkete tıkladığında yapay zeka öngörüleri burada şekillenecektir.</p>
                 </div>
-                <p class="text-[11px] text-slate-500">Adayların mülakat süreçlerindeki bekleme süreleri ham veri olarak işlenir ve üç ayda bir büyük işveren ortaklarımıza verimlilik raporu olarak sunulur.</p>
+                <p class="text-[11px] text-slate-500">
+                    İşte İK profesyonellerinin ve yöneticilerin elinde olması gereken o gizli kaynak! Rakiplerinizin yetenek kaybı oranlarını, mülakatlardaki bekleme sürelerini ve departman hızlarını sızdırılmış ham verilerle inceleyin.
+                </p>
                 
                 <div class="mt-4 pt-4 border-t border-slate-800/80 flex items-center justify-between">
                     <span class="text-[10px] text-slate-400 font-medium">Son Güncelleme: Q3 2026 Raporu Hazır.</span>
@@ -644,12 +650,12 @@
 
                 tableBody.innerHTML += `
                     <tr class="hover:bg-slate-800/10 transition border-b border-slate-800/10 cursor-pointer" onclick="fetchAIPrediction('${item.company_name}')">
-                        <td class="py-3">
-                            <div class="font-bold flex items-center">${item.company_name} ${getVerifiedBadge(item.company_name, allData)}</div>
-                            <div class="text-[9px] text-slate-400">${item.city || 'Türkiye'}</div>
+                        <td class="py-3 pr-4">
+                            <div class="font-bold flex items-center gap-1">${item.company_name} ${getVerifiedBadge(item.company_name, allData)}</div>
+                            <div class="text-[9px] text-slate-400 mt-1">${item.city || 'Türkiye'}</div>
                         </td>
-                        <td class="py-3 text-slate-400 text-xs">${item.program_name}</td>
-                        <td class="py-3"><div class="w-12 h-1 bg-slate-800 rounded-full"><div class="bg-sky-500 h-full" style="width: 70%"></div></div></td>
+                        <td class="py-3 pr-4 text-slate-400 text-xs">${item.program_name}</td>
+                        <td class="py-3 pr-4 hidden md:table-cell"><div class="w-12 h-1 bg-slate-800 rounded-full"><div class="bg-sky-500 h-full" style="width: 70%"></div></div></td>
                         <td class="py-3 text-right font-black text-[10px]">${statusHtml}</td>
                     </tr>`;
             });
