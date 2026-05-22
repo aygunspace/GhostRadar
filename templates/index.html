@@ -37,7 +37,7 @@
         }
 
         .animate-marquee {
-            animation: marquee 25s linear infinite;
+            animation: marquee 45s linear infinite;
         }
 
         @keyframes marquee {
@@ -383,7 +383,7 @@
                     </div>
                     <p class="text-[11px] text-slate-400 leading-relaxed mb-4">Başvurularını tarayıcı çerezlerine emanet etme. Profilini buluta taşıyarak İK dönüş alarmlarını e-posta olarak al.</p>
                 </div>
-                <button onclick="showToast('Google entegrasyonu bir sonraki güncellemede aktif olacaktır.', 'error')" class="w-full bg-white hover:bg-slate-100 text-slate-900 font-bold text-xs py-2.5 px-4 rounded-xl transition flex items-center justify-center gap-2 shadow-md">
+                <button onclick="simulateGoogleLogin(this)" class="w-full bg-white hover:bg-slate-100 text-slate-900 font-bold text-xs py-2.5 px-4 rounded-xl transition flex items-center justify-center gap-2 shadow-md">
                     <svg class="w-4 h-4" viewBox="0 0 24 24"><path fill="#EA4335" d="M12.24 10.285V14.4h6.887c-.648 2.41-2.519 4.114-5.136 4.114A5.79 5.79 0 0 1 8.2 12.725a5.79 5.79 0 0 1 5.79-5.79c2.519 0 4.417 1.054 5.378 2.01l3.197-3.197C20.62 3.823 17.584 2.25 13.99 2.25a9.75 9.75 0 0 0-9.75 9.75 9.75 0 0 0 9.75 9.75c5.34 0 9.75-4.41 9.75-9.75 0-.64-.075-1.25-.214-1.832l-11.286-.133z"/></svg>
                     Google ile Anonim Bağlan
                 </button>
@@ -404,7 +404,7 @@
                 <div class="mt-4 pt-4 border-t border-slate-800/80 flex items-center justify-between">
                     <span class="text-[10px] text-slate-400 font-medium">Son Güncelleme: Q3 2026 Raporu Hazır.</span>
                     
-                    <button onclick="window.location.href='/api/export/b2b-report'" class="bg-fuchsia-600 hover:bg-fuchsia-500 text-white font-black text-xs px-5 py-2 rounded-xl transition shadow-[0_0_15px_rgba(192,38,211,0.4)] flex items-center gap-2">
+                    <button onclick="downloadB2BReport()" class="bg-fuchsia-600 hover:bg-fuchsia-500 text-white font-black text-xs px-5 py-2 rounded-xl transition shadow-[0_0_15px_rgba(192,38,211,0.4)] flex items-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                         Raporu İndir (CSV)
                     </button>
@@ -777,6 +777,27 @@
                         <span class="text-fuchsia-300 mt-1 block">🤖 ${data.ai_prediction}</span>
                     `;
                 });
+        }
+        
+        function downloadB2BReport() {
+            // Check if PRO is active
+            if (!localStorage.getItem('ghostradar_pro')) {
+                openCheckout();
+                return;
+            }
+            window.location.href = '/api/export/b2b-report';
+            showToast("Rapor indiriliyor...", "success");
+        }
+
+        function simulateGoogleLogin(btn) {
+            btn.innerHTML = `<svg class="animate-spin -ml-1 mr-3 h-4 w-4 text-slate-800" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Bağlanıyor...`;
+            btn.disabled = true;
+            setTimeout(() => {
+                btn.classList.remove('bg-white', 'text-slate-900');
+                btn.classList.add('bg-emerald-500/20', 'text-emerald-400', 'border', 'border-emerald-500/50');
+                btn.innerHTML = `✅ Bulut Eşitleme Aktif`;
+                showToast("Google hesabı bağlandı. Verileriniz buluta senkronize ediliyor.", "success");
+            }, 1500);
         }
         
         function openCheckout() { document.getElementById('checkoutModal').classList.remove('hidden'); }

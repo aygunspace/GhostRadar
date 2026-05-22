@@ -56,24 +56,25 @@ def setup_database():
         from datetime import datetime, timedelta
         
         companies = [
-            ('Tüpraş', 'Enerji & Petrokimya', ['Kocaeli', 'İzmir', 'İstanbul', 'Batman', 'Kırıkkale']),
-            ('ABB', 'Teknoloji & Yazılım', ['İstanbul', 'Kocaeli']),
-            ('ING Hubs', 'Finans & Bankacılık', ['İstanbul', 'Remote']),
-            ('Aselsan', 'Savunma Sanayi', ['Ankara']),
-            ('Baykar', 'Savunma Sanayi', ['İstanbul']),
-            ('Trendyol', 'E-Ticaret', ['İstanbul', 'Remote', 'Ankara']),
-            ('Getir', 'Teknoloji & Yazılım', ['İstanbul', 'Remote']),
-            ('Ford Otosan', 'Otomotiv', ['Kocaeli', 'İstanbul']),
-            ('Koç Holding', 'Diğer', ['İstanbul']),
-            ('Akbank', 'Finans & Bankacılık', ['İstanbul', 'Kocaeli']),
-            ('Adatech', 'Teknoloji & Yazılım', ['İstanbul', 'Ankara', 'İzmir']),
-            ('Acciona', 'Enerji', ['İstanbul', 'Ankara']),
-            ('Anadolu Isuzu', 'Otomotiv', ['Kocaeli'])
+            ('Tüpraş', 'Enerji & Petrokimya', ['Kocaeli', 'İzmir', 'İstanbul', 'Batman', 'Kırıkkale'], ['Kimya Mühendisi', 'Proses Mühendisi', 'Veri Analisti', 'Yeni Mezun Programı']),
+            ('ABB', 'Teknoloji & Yazılım', ['İstanbul', 'Kocaeli'], ['Elektrik/Elektronik Mühendisi', 'Kontrol Mühendisi', 'Otomasyon Mühendisi', 'Saha Mühendisi']),
+            ('ING Hubs', 'Finans & Bankacılık', ['İstanbul', 'Remote'], ['Yazılım Mühendisi', 'Data Engineer', 'Business Analyst', 'Yetenek Programı']),
+            ('Aselsan', 'Savunma Sanayi', ['Ankara'], ['Gömülü Sistemler Mühendisi', 'Donanım Mühendisi', 'Sistem Mühendisi', 'Yetenek Programı']),
+            ('Baykar', 'Savunma Sanayi', ['İstanbul'], ['Uçuş Kontrol Mühendisi', 'Yazılım Mühendisi', 'Mekanik Tasarım Mühendisi']),
+            ('Trendyol', 'E-Ticaret', ['İstanbul', 'Remote', 'Ankara'], ['Yazılım Mühendisi', 'Veri Bilimcisi', 'Ürün Yöneticisi', 'Stajyer']),
+            ('Getir', 'Teknoloji & Yazılım', ['İstanbul', 'Remote'], ['Yazılım Mühendisi', 'Veri Analisti', 'Backend Mühendisi', 'Operasyon Uzmanı']),
+            ('Ford Otosan', 'Otomotiv', ['Kocaeli', 'İstanbul'], ['Otomotiv Mühendisi', 'Üretim Mühendisi', 'Ar-Ge Mühendisi', 'MT Programı']),
+            ('Koç Holding', 'Diğer', ['İstanbul'], ['Geleceğim Koç Uzun Dönem Staj', 'MT Programı', 'Finans Uzmanı']),
+            ('Akbank', 'Finans & Bankacılık', ['İstanbul', 'Kocaeli'], ['MT Programı', 'Veri Analisti', 'Yazılım Geliştirici']),
+            ('Adatech', 'Teknoloji & Yazılım', ['İstanbul', 'Ankara', 'İzmir'], ['Yazılım Mühendisi', 'Frontend Developer', 'Stajyer']),
+            ('Acciona', 'Enerji', ['İstanbul', 'Ankara'], ['Enerji Sistemleri Mühendisi', 'Proje Mühendisi']),
+            ('Anadolu Isuzu', 'Otomotiv', ['Kocaeli'], ['Üretim Mühendisi', 'Kalite Mühendisi', 'Tasarım Mühendisi'])
         ]
         
-        company_cities = {name: cities for name, sector, cities in companies}
+        company_cities = {name: cities for name, sector, cities, programs in companies}
+        company_programs = {name: programs for name, sector, cities, programs in companies}
         
-        for name, sector, _ in companies:
+        for name, sector, _, _ in companies:
             cursor.execute('INSERT OR IGNORE INTO Companies (company_name, sector) VALUES (?, ?)', (name, sector))
             
         programs = ['Yetenek Programı', 'Yeni Mezun', 'Yazılım Mühendisi', 'Stajyer', 'Kontrol Mühendisi', 'Veri Analisti', 'Ürün Yöneticisi', 'MT Programı']
@@ -96,7 +97,7 @@ def setup_database():
         
         for _ in range(25):
             cid, cname = random.choice(company_data)
-            program = random.choice(programs)
+            program = random.choice(company_programs.get(cname, ['Yetenek Programı', 'Yeni Mezun', 'Stajyer']))
             status = random.choices(statuses, weights=[0.4, 0.15, 0.25, 0.2])[0]
             days_ago = random.randint(1, 60)
             apply_date = (datetime.now() - timedelta(days=days_ago)).strftime('%Y-%m-%d')
@@ -210,8 +211,8 @@ def export_b2b_report():
 
     # Veriyi CSV (Excel) formatına dönüştüren Generator
     def generate():
-        # Rapor Başlıkları (Sütunlar)
-        yield 'Sirket,Toplam_Basvuru,Ghosting_Vakasi,Olumlu_Donus,Ghosting_Orani(%)\n'
+        # Rapor Başlıkları (Sütunlar) - Türkçe Excel İçin BOM ve Noktalı Virgül
+        yield '\ufeffSirket;Toplam_Basvuru;Ghosting_Vakasi;Olumlu_Donus;Ghosting_Orani(%)\n'
         
         # Verileri Satır Satır İşle
         for row in data:
@@ -220,7 +221,7 @@ def export_b2b_report():
             ghost = row['ghost_count']
             success = row['success_count']
             rate = round((ghost / total) * 100) if total > 0 else 0
-            yield f'{company},{total},{ghost},{success},{rate}\n'
+            yield f'{company};{total};{ghost};{success};{rate}\n'
 
     # Dosyayı tarayıcıya "İndirilebilir Rapor" olarak gönder
     return Response(generate(), mimetype='text/csv', headers={'Content-Disposition': 'attachment; filename=GhostRadar_Yetenek_Kaybi_Raporu_Q3_2026.csv'})
