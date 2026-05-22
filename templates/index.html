@@ -252,9 +252,35 @@
                         <tbody id="data-table" class="divide-y divide-slate-800/20 text-sm"></tbody>
                     </table>
                 </div>
+
+                <!-- PRO Kilit Kutusu -->
+                <div class="mt-8 bg-slate-800/50 border border-slate-700 rounded-2xl p-6 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-slate-950/40 backdrop-blur-[4px] z-10 flex flex-col items-center justify-center text-center p-4">
+                        <span class="text-2xl mb-2">🕵️‍♂️💎</span>
+                        <h4 class="font-black text-sm text-white uppercase tracking-wider mb-1">Departman Kırılımlı Gelişmiş Analiz</h4>
+                        <p class="text-xs text-slate-400 max-w-sm mb-4">Hangi şirketin hangi departmanı (Yazılım, İK, Pazarlama) daha hızlı dönüyor? VIP Ajan rütbesine yüksel, kör noktaları yok et.</p>
+                        <button onclick="showToast('Ödeme altyapısı yakında entegre edilecektir! Aylık sadece 49 TL.', 'success')" class="bg-gradient-to-r from-fuchsia-600 to-purple-600 hover:from-fuchsia-500 hover:to-purple-500 text-white font-black text-xs px-6 py-2.5 rounded-full transition shadow-lg shadow-fuchsia-500/20">
+                            Aylık 49 TL'ye PRO'ya Yüksel ✨
+                        </button>
+                    </div>
+
+                    <h3 class="font-bold text-xs text-slate-600 uppercase mb-4">Sektörel Departman Hızları (PRO)</h3>
+                    <div class="space-y-3 opacity-20">
+                        <div class="flex justify-between text-sm"><span class="text-slate-400">Ar-Ge & Yazılım</span><span class="font-bold text-emerald-400">3 Gün</span></div>
+                        <div class="flex justify-between text-sm"><span class="text-slate-400">İnsan Kaynakları (İK)</span><span class="font-bold text-rose-400">28 Gün</span></div>
+                    </div>
+                </div>
             </div>
 
             <div class="space-y-6">
+                <!-- Sponsorlu Kart Ekleme -->
+                <div class="bg-gradient-to-r from-amber-950/30 to-slate-900 border border-amber-500/30 rounded-2xl p-5 shadow-[0_0_20px_rgba(245,158,11,0.05)] relative overflow-hidden group">
+                    <div class="absolute -top-10 -right-10 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl group-hover:bg-amber-500/20 transition duration-500"></div>
+                    <span class="bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded text-[8px] font-black tracking-widest uppercase block w-max mb-3">Öne Çıkan Fırsat</span>
+                    <h4 class="font-black text-sm text-white mb-1">ABB Türkiye - Kontrol Mühendisi Adayı</h4>
+                    <p class="text-xs text-slate-400 mb-4">Industrial Automation departmanında yetiştirilmek üzere yeni mezunlar aranıyor.</p>
+                    <a href="https://abb.com" target="_blank" class="block text-center bg-amber-500 hover:bg-amber-400 text-slate-900 font-black text-xs py-2 rounded-xl transition shadow-lg">Detayları Gör ve Başvur 🚀</a>
+                </div>
                 <div class="bg-rose-950/10 border border-rose-500/30 rounded-2xl p-6 relative overflow-hidden">
                     <h3
                         class="font-black mb-4 text-rose-500 text-[10px] uppercase tracking-widest flex justify-between">
@@ -480,6 +506,19 @@
             renderTable(filtered);
         }
 
+        function getVerifiedBadge(companyName, data) {
+            // Şirket platforma para ödeyip kurumsal üye olduysa
+            const premiumEmployers = ["Tüpraş", "ABB", "ING Hubs"];
+            if (premiumEmployers.includes(companyName)) {
+                return `<span class="ml-2 text-[8px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/30 font-black tracking-wider flex items-center gap-1">💎 ONAYLI ŞEFFAF İŞVEREN</span>`;
+            }
+            
+            // Ücretsiz popülerlik rozeti
+            const count = data.filter(d => d.company_name === companyName).length;
+            if(count >= 3) return `<span class="ml-2 text-[8px] bg-sky-500/20 text-sky-400 px-1.5 py-0.5 rounded-full border border-sky-500/30 font-black">🔥 POPÜLER</span>`;
+            return '';
+        }
+
         function renderTable(dataToRender) {
             const tableBody = document.getElementById('data-table');
             tableBody.innerHTML = '';
@@ -504,7 +543,7 @@
                 tableBody.innerHTML += `
                     <tr class="hover:bg-slate-800/10 transition border-b border-slate-800/10">
                         <td class="py-3">
-                            <div class="font-bold flex items-center">${item.company_name}</div>
+                            <div class="font-bold flex items-center">${item.company_name} ${getVerifiedBadge(item.company_name, allData)}</div>
                             <div class="text-[9px] text-slate-400">${item.city || 'Türkiye'}</div>
                         </td>
                         <td class="py-3 text-slate-400 text-xs">${item.program_name}</td>
@@ -527,7 +566,8 @@
                 document.getElementById('stat-rate').innerText = ghostRate + '%';
 
                 // Ticker & Datalist
-                document.getElementById('ticker-content').innerHTML = data.slice(0, 15).map(i => {
+                const sponsorText = `<div class="flex items-center gap-3 px-4 py-1.5 rounded-full border bg-amber-950/30 border-amber-900/50 shadow-sm whitespace-nowrap"><span class="bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded text-[9px] font-black tracking-widest mr-2">🔥 SPONSORLU İLAN</span> <a href="#" class="text-amber-400 font-bold hover:underline">ABB Global Yetenek Programı Başvuruları Başladı! Hemen Başvur.</a></div>`;
+                const dataText = data.slice(0, 15).map(i => {
                     let statusColor = 'text-slate-400';
                     let statusIcon = '⏳';
                     let bgStatus = 'bg-slate-800/50 border-slate-700';
@@ -535,12 +575,13 @@
                     if(i.status === 'Olumlu Dönüş') { statusColor = 'text-emerald-400'; statusIcon = '🎉'; bgStatus = 'bg-emerald-950/30 border-emerald-900/50'; }
                     if(i.status === 'Olumsuz Dönüş') { statusColor = 'text-orange-400'; statusIcon = '❌'; bgStatus = 'bg-orange-950/30 border-orange-900/50'; }
                     
-                    return `<div class="flex items-center gap-3 px-4 py-1.5 rounded-full border ${bgStatus} shadow-sm">
+                    return `<div class="flex items-center gap-3 px-4 py-1.5 rounded-full border ${bgStatus} shadow-sm whitespace-nowrap">
                         <span class="text-slate-500 text-[10px] uppercase tracking-wider font-bold">${i.city || 'Türkiye'}</span>
                         <span class="text-white font-black text-xs">${i.company_name}</span>
                         <span class="${statusColor} text-[10px] font-bold flex items-center gap-1">${statusIcon} ${i.status}</span>
                     </div>`;
                 }).join('');
+                document.getElementById('ticker-content').innerHTML = sponsorText + dataText;
                 const defaultCompanies = ["Tüpraş", "ABB", "Adatech", "Acciona", "Anadolu Isuzu", "ING Hubs", "Aselsan", "Baykar"];
                 const dbCompanies = data.map(item => item.company_name);
                 const uniqueCompanies = [...new Set([...defaultCompanies, ...dbCompanies])].sort();

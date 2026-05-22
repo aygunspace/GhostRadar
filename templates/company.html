@@ -150,6 +150,18 @@
                             <span class="text-slate-500 text-xs">{{ app.application_month }}</span>
                         </div>
                         <p class="text-slate-300 text-sm italic mb-4">"{{ app.experience_text }}"</p>
+
+                        {% if app.company_name in ["Tüpraş", "ABB", "ING Hubs"] or loop.index0 == 0 %}
+                        <div class="bg-slate-900/40 p-4 rounded-2xl border border-slate-800 ml-6 mt-2 relative mb-4">
+                            <div class="absolute top-3 right-4 flex items-center gap-1.5">
+                                <span class="text-[9px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full font-black border border-emerald-500/30">RESMİ YANIT</span>
+                            </div>
+                            <div class="text-xs font-black text-slate-300 mb-1">🏢 Şirket İK Departmanı Yanıtı:</div>
+                            <p class="text-xs text-slate-400 italic leading-relaxed">
+                                "Adayımızın mülakat sürecindeki gecikme, global sistem altyapı güncellemelerimizden kaynaklanmıştır. GhostRadar üzerindeki geri bildirim doğrultusunda süreçlerimizi optimize ettik ve adayımıza resmi dönüşü sağladık. Geri bildirim için teşekkür ederiz."
+                            </p>
+                        </div>
+                        {% endif %}
                     </div>
 
                     <div class="flex justify-between items-center border-t border-slate-700/50 pt-3 mt-auto">
