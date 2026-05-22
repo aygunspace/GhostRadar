@@ -12,6 +12,14 @@ def setup_database():
     conn = sqlite3.connect('ghostradar.db')
     cursor = conn.cursor()
     
+    # Şema versiyon kontrolü: Eğer apply_date yoksa (eski sürümse), tabloları sıfırla.
+    try:
+        cursor.execute("SELECT apply_date FROM Applications LIMIT 1")
+    except sqlite3.OperationalError:
+        cursor.execute("DROP TABLE IF EXISTS Applications")
+        cursor.execute("DROP TABLE IF EXISTS Companies")
+        cursor.execute("DROP TABLE IF EXISTS Pulse")
+    
     cursor.execute('''CREATE TABLE IF NOT EXISTS Companies (id INTEGER PRIMARY KEY AUTOINCREMENT, company_name TEXT UNIQUE NOT NULL, sector TEXT DEFAULT 'Diğer')''')
     
     # Pulse tablosu: Anonim mesajlar için
