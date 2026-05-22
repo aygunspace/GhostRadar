@@ -48,31 +48,35 @@ def setup_database():
     except: pass
         
     count = cursor.execute("SELECT COUNT(*) FROM Applications").fetchone()[0]
-    if count == 0:
+    if count <= 25:
+        cursor.execute("DELETE FROM Applications")
+        cursor.execute("DELETE FROM Companies")
         import random
         from datetime import datetime, timedelta
         
         companies = [
-            ('Tüpraş', 'Enerji & Petrokimya'),
-            ('ABB', 'Teknoloji & Yazılım'),
-            ('ING Hubs', 'Finans & Bankacılık'),
-            ('Aselsan', 'Savunma Sanayi'),
-            ('Baykar', 'Savunma Sanayi'),
-            ('Trendyol', 'E-Ticaret'),
-            ('Getir', 'Teknoloji & Yazılım'),
-            ('Ford Otosan', 'Otomotiv'),
-            ('Koç Holding', 'Diğer'),
-            ('Akbank', 'Finans & Bankacılık'),
-            ('Adatech', 'Teknoloji & Yazılım'),
-            ('Acciona', 'Enerji'),
-            ('Anadolu Isuzu', 'Otomotiv')
+            ('Tüpraş', 'Enerji & Petrokimya', ['Kocaeli', 'İzmir', 'İstanbul', 'Batman', 'Kırıkkale']),
+            ('ABB', 'Teknoloji & Yazılım', ['İstanbul', 'Kocaeli']),
+            ('ING Hubs', 'Finans & Bankacılık', ['İstanbul', 'Remote']),
+            ('Aselsan', 'Savunma Sanayi', ['Ankara']),
+            ('Baykar', 'Savunma Sanayi', ['İstanbul']),
+            ('Trendyol', 'E-Ticaret', ['İstanbul', 'Remote', 'Ankara']),
+            ('Getir', 'Teknoloji & Yazılım', ['İstanbul', 'Remote']),
+            ('Ford Otosan', 'Otomotiv', ['Kocaeli', 'İstanbul']),
+            ('Koç Holding', 'Diğer', ['İstanbul']),
+            ('Akbank', 'Finans & Bankacılık', ['İstanbul', 'Kocaeli']),
+            ('Adatech', 'Teknoloji & Yazılım', ['İstanbul', 'Ankara', 'İzmir']),
+            ('Acciona', 'Enerji', ['İstanbul', 'Ankara']),
+            ('Anadolu Isuzu', 'Otomotiv', ['Kocaeli'])
         ]
-        for name, sector in companies:
+        
+        company_cities = {name: cities for name, sector, cities in companies}
+        
+        for name, sector, _ in companies:
             cursor.execute('INSERT OR IGNORE INTO Companies (company_name, sector) VALUES (?, ?)', (name, sector))
             
         programs = ['Yetenek Programı', 'Yeni Mezun', 'Yazılım Mühendisi', 'Stajyer', 'Kontrol Mühendisi', 'Veri Analisti', 'Ürün Yöneticisi', 'MT Programı']
         statuses = ['Ghostlandı', 'Olumlu Dönüş', 'Olumsuz Dönüş', 'Bekliyor']
-        cities = ['İstanbul', 'Ankara', 'İzmir', 'Remote', 'Kocaeli', 'Bursa']
         experiences = [
             'Süreç çok uzundu ama sonunda dönüş yaptılar.',
             'Mülakatlar zorluydu, teknik test epey kastırdı.',
@@ -86,18 +90,19 @@ def setup_database():
             'Sistemde hata oldu, başvurum gitmemiş bile olabilir.'
         ]
         
-        cursor.execute("SELECT id FROM Companies")
-        company_ids = [row[0] for row in cursor.fetchall()]
+        cursor.execute("SELECT id, company_name FROM Companies")
+        company_data = cursor.fetchall()
         
         for _ in range(25):
-            cid = random.choice(company_ids)
+            cid, cname = random.choice(company_data)
             program = random.choice(programs)
             status = random.choices(statuses, weights=[0.4, 0.15, 0.25, 0.2])[0]
             days_ago = random.randint(1, 60)
             apply_date = (datetime.now() - timedelta(days=days_ago)).strftime('%Y-%m-%d')
             exp = random.choice(experiences) if random.random() > 0.3 else ''
             diff = random.randint(2, 5)
-            city = random.choice(cities)
+            city = random.choice(company_cities.get(cname, ['İstanbul', 'Ankara']))
+            
             cursor.execute('''
                 INSERT INTO Applications (company_id, program_name, apply_date, status, experience_text, difficulty, city)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
