@@ -22,7 +22,7 @@ def setup_database():
         company_name TEXT DEFAULT 'Genel'
     )''')
     # GÜNCELLENDİ: city sütunu eklendi
-    cursor.execute('''CREATE TABLE IF NOT EXISTS Applications (id INTEGER PRIMARY KEY AUTOINCREMENT, company_id INTEGER, program_name TEXT NOT NULL, application_month TEXT NOT NULL, status TEXT NOT NULL, experience_text TEXT, difficulty INTEGER DEFAULT 3, city TEXT DEFAULT 'Belirtilmemiş', upvotes INTEGER DEFAULT 0, flags INTEGER DEFAULT 0, FOREIGN KEY (company_id) REFERENCES Companies (id))''')
+    cursor.execute('''CREATE TABLE IF NOT EXISTS Applications (id INTEGER PRIMARY KEY AUTOINCREMENT, company_id INTEGER, program_name TEXT NOT NULL, apply_date TEXT NOT NULL, status TEXT NOT NULL, experience_text TEXT, difficulty INTEGER DEFAULT 3, city TEXT DEFAULT 'Belirtilmemiş', upvotes INTEGER DEFAULT 0, flags INTEGER DEFAULT 0, FOREIGN KEY (company_id) REFERENCES Companies (id))''')
     
     # Mevcut veritabanını bozmadan yeni sütunları ekle
     try: cursor.execute("ALTER TABLE Applications ADD COLUMN experience_text TEXT")
@@ -98,11 +98,11 @@ def trend_stats():
     conn = get_db_connection()
     # Adayların girdikleri 'Mayıs 2026' gibi metinleri grupluyoruz. (Daha gelişmiş projelerde Date objesi kullanılır)
     stats = conn.execute('''
-        SELECT a.application_month as month,
+        SELECT a.apply_date as month,
                COUNT(a.id) as total_apps,
                SUM(CASE WHEN a.status = 'Ghostlandı' THEN 1 ELSE 0 END) * 100.0 / COUNT(a.id) as ghost_rate
         FROM Applications a
-        GROUP BY a.application_month
+        GROUP BY a.apply_date
     ''').fetchall()
     conn.close()
     return jsonify([dict(row) for row in stats])
@@ -111,7 +111,7 @@ def trend_stats():
 def get_stats():
     conn = get_db_connection()
     applications = conn.execute('''
-        SELECT c.company_name, c.sector, a.program_name, a.application_month, a.status, a.difficulty, a.city
+        SELECT c.company_name, c.sector, a.program_name, a.apply_date, a.status, a.difficulty, a.city
         FROM Applications a JOIN Companies c ON a.company_id = c.id
         ORDER BY a.id DESC
     ''').fetchall()
@@ -134,9 +134,9 @@ def add_entry():
         city = data.get('city', 'Belirtilmemiş') # GÜNCELLENDİ: Formdan şehri al
         
         cursor.execute('''
-            INSERT INTO Applications (company_id, program_name, application_month, status, experience_text, difficulty, city)
+            INSERT INTO Applications (company_id, program_name, apply_date, status, experience_text, difficulty, city)
             VALUES (?, ?, ?, ?, ?, ?, ?)
-        ''', (company_id, data['program'], data['month'], data['status'], experience, difficulty, city))
+        ''', (company_id, data['program'], data['apply_date'], data['status'], experience, difficulty, city))
         
         conn.commit()
         return jsonify({"message": "Başarıyla eklendi!"}), 200
@@ -212,7 +212,7 @@ def company_detail(company_name):
         
     company_id = company['id']
     applications = conn.execute('''
-        SELECT id, program_name, application_month, status, experience_text, difficulty, upvotes, flags, city
+        SELECT id, program_name, apply_date, status, experience_text, difficulty, upvotes, flags, city
         FROM Applications WHERE company_id = ? ORDER BY upvotes DESC, id DESC
     ''', (company_id,)).fetchall()
     

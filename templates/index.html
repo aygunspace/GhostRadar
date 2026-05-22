@@ -363,14 +363,7 @@
                         <option value="Antalya">Antalya</option>
                         <option value="Remote">Remote</option>
                     </select>
-                    <select id="month" class="bg-slate-900 border border-slate-700 text-sm rounded-xl p-3 text-white" required>
-                        <option value="" disabled selected>Süreç Ayı</option>
-                        <option value="Ocak 2026">Ocak 2026</option>
-                        <option value="Şubat 2026">Şubat 2026</option>
-                        <option value="Mart 2026">Mart 2026</option>
-                        <option value="Nisan 2026">Nisan 2026</option>
-                        <option value="Mayıs 2026">Mayıs 2026</option>
-                    </select>
+                    <input type="date" id="apply-date" class="bg-slate-900 border border-slate-700 text-sm rounded-xl p-3 text-white" required title="Başvuru Tarihin">
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
@@ -491,6 +484,23 @@
             const tableBody = document.getElementById('data-table');
             tableBody.innerHTML = '';
             dataToRender.forEach(item => {
+                let statusHtml = '';
+                if (item.status === 'Bekliyor' && item.apply_date) {
+                    const applyDate = new Date(item.apply_date);
+                    const today = new Date();
+                    const diffTime = Math.abs(today - applyDate);
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                    
+                    statusHtml = `
+                        <div class="text-amber-500 font-black">⏳ ${item.status}</div>
+                        <div class="text-[9px] text-slate-400 font-bold mt-1 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">${diffDays} Gündür Ses Yok</div>
+                    `;
+                } else if (item.status === 'Ghostlandı') {
+                    statusHtml = `<div class="text-rose-500 font-black">👻 ${item.status}</div>`;
+                } else {
+                    statusHtml = `<div class="text-emerald-500 font-black">🎉 Olumlu</div>`;
+                }
+
                 tableBody.innerHTML += `
                     <tr class="hover:bg-slate-800/10 transition border-b border-slate-800/10">
                         <td class="py-3">
@@ -499,7 +509,7 @@
                         </td>
                         <td class="py-3 text-slate-400 text-xs">${item.program_name}</td>
                         <td class="py-3"><div class="w-12 h-1 bg-slate-800 rounded-full"><div class="bg-sky-500 h-full" style="width: 70%"></div></div></td>
-                        <td class="py-3 text-right font-black text-[10px] ${item.status === 'Ghostlandı' ? 'text-rose-500' : 'text-emerald-500'}">${item.status}</td>
+                        <td class="py-3 text-right font-black text-[10px]">${statusHtml}</td>
                     </tr>`;
             });
         }
@@ -531,7 +541,9 @@
                         <span class="${statusColor} text-[10px] font-bold flex items-center gap-1">${statusIcon} ${i.status}</span>
                     </div>`;
                 }).join('');
-                const uniqueCompanies = [...new Set(data.map(item => item.company_name))];
+                const defaultCompanies = ["Tüpraş", "ABB", "Adatech", "Acciona", "Anadolu Isuzu", "ING Hubs", "Aselsan", "Baykar"];
+                const dbCompanies = data.map(item => item.company_name);
+                const uniqueCompanies = [...new Set([...defaultCompanies, ...dbCompanies])].sort();
                 document.getElementById('company-list').innerHTML = uniqueCompanies.map(c => `<option value="${c}">`).join('');
                 
                 applyFilters();
@@ -573,7 +585,7 @@
                 sector: document.getElementById('sector').value,
                 program: document.getElementById('program').value,
                 city: document.getElementById('city').value,
-                month: document.getElementById('month').value,
+                apply_date: document.getElementById('apply-date').value,
                 difficulty: parseInt(document.getElementById('difficulty').value),
                 status: document.getElementById('status').value,
                 experience: document.getElementById('experience').value
