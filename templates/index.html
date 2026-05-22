@@ -374,6 +374,34 @@
                 <p>© 2026 GhostRadar. Tüm hakları saklıdır. Geliştirici: A.Y.G.N. Space</p>
             </div>
         </div>
+        <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="md:col-span-1 bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between shadow-xl">
+                <div>
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="bg-sky-500/10 text-sky-400 p-1.5 rounded-lg text-xs">🔐</span>
+                        <h4 class="font-black text-xs uppercase tracking-wider text-white">Bulut Eşitleme</h4>
+                    </div>
+                    <p class="text-[11px] text-slate-400 leading-relaxed mb-4">Başvurularını tarayıcı çerezlerine emanet etme. Profilini buluta taşıyarak İK dönüş alarmlarını e-posta olarak al.</p>
+                </div>
+                <button onclick="showToast('Google entegrasyonu bir sonraki güncellemede aktif olacaktır.', 'error')" class="w-full bg-white hover:bg-slate-100 text-slate-900 font-bold text-xs py-2.5 px-4 rounded-xl transition flex items-center justify-center gap-2 shadow-md">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24"><path fill="#EA4335" d="M12.24 10.285V14.4h6.887c-.648 2.41-2.519 4.114-5.136 4.114A5.79 5.79 0 0 1 8.2 12.725a5.79 5.79 0 0 1 5.79-5.79c2.519 0 4.417 1.054 5.378 2.01l3.197-3.197C20.62 3.823 17.584 2.25 13.99 2.25a9.75 9.75 0 0 0-9.75 9.75 9.75 0 0 0 9.75 9.75c5.34 0 9.75-4.41 9.75-9.75 0-.64-.075-1.25-.214-1.832l-11.286-.133z"/></svg>
+                    Google ile Anonim Bağlan
+                </button>
+            </div>
+
+            <div class="md:col-span-2 bg-slate-900 border border-slate-800 rounded-2xl p-6 relative overflow-hidden shadow-sm">
+                <div class="absolute top-4 right-4 bg-fuchsia-500/10 text-fuchsia-400 border border-fuchsia-500/20 px-2 py-0.5 rounded text-[8px] font-black tracking-widest uppercase">B2B Veri Analizi</div>
+                <h4 class="font-bold text-sm mb-2 text-white">🔍 Yapay Zeka Öngörü Modülü & Sektörel Büyük Veri</h4>
+                
+                <div class="bg-slate-950/60 p-4 rounded-xl border border-slate-800/80 mb-3">
+                    <div class="text-[9px] text-fuchsia-400 font-bold uppercase mb-1 flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 bg-fuchsia-500 rounded-full animate-pulse"></span> Canlı Şirket Durum Analizi:
+                    </div>
+                    <p id="ai-prediction-box" class="text-xs text-slate-300 italic">Aşağıdaki tablodan bir şirkete tıkladığında yapay zeka öngörüleri burada şekillenecektir.</p>
+                </div>
+                <p class="text-[11px] text-slate-500">Adayların mülakat süreçlerindeki bekleme süreleri ham veri olarak işlenir ve üç ayda bir büyük işveren ortaklarımıza verimlilik raporu olarak sunulur.</p>
+            </div>
+        </div>
     </main>
 
     <div id="toast-container" class="fixed bottom-6 right-6 z-[100] flex flex-col gap-3 pointer-events-none"></div>
@@ -606,7 +634,7 @@
                 }
 
                 tableBody.innerHTML += `
-                    <tr class="hover:bg-slate-800/10 transition border-b border-slate-800/10">
+                    <tr class="hover:bg-slate-800/10 transition border-b border-slate-800/10 cursor-pointer" onclick="fetchAIPrediction('${item.company_name}')">
                         <td class="py-3">
                             <div class="font-bold flex items-center">${item.company_name} ${getVerifiedBadge(item.company_name, allData)}</div>
                             <div class="text-[9px] text-slate-400">${item.city || 'Türkiye'}</div>
@@ -728,6 +756,18 @@
             navigator.clipboard.writeText(window.location.href).then(() => {
                 showToast("Platform bağlantısı kopyalandı!", "success");
             });
+        }
+        
+        function fetchAIPrediction(companyName) {
+            document.getElementById('ai-prediction-box').innerHTML = `<span class="text-slate-500">Yapay Zeka ${companyName} verilerini analiz ediyor...</span>`;
+            fetch('/api/company/info?name=' + encodeURIComponent(companyName))
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById('ai-prediction-box').innerHTML = `
+                        <strong class="text-white">${data.company}</strong> | Toplam Bildirim: <span class="text-sky-400">${data.total_reviews}</span> | Ghosting Oranı: <span class="text-rose-400">%${data.ghost_rate}</span><br>
+                        <span class="text-fuchsia-300 mt-1 block">🤖 ${data.ai_prediction}</span>
+                    `;
+                });
         }
         
         function openCheckout() { document.getElementById('checkoutModal').classList.remove('hidden'); }
