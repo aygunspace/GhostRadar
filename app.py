@@ -56,8 +56,6 @@ def setup_database():
         from datetime import datetime, timedelta
         
         companies = [
-            ('Tüpraş', 'Enerji & Petrokimya', ['Kocaeli', 'İzmir', 'İstanbul', 'Batman', 'Kırıkkale'], ['Kimya Mühendisi', 'Proses Mühendisi', 'Veri Analisti', 'Yeni Mezun Programı']),
-            ('ABB', 'Teknoloji & Yazılım', ['İstanbul', 'Kocaeli'], ['Elektrik/Elektronik Mühendisi', 'Kontrol Mühendisi', 'Otomasyon Mühendisi', 'Saha Mühendisi']),
             ('ING Hubs', 'Finans & Bankacılık', ['İstanbul', 'Remote'], ['Yazılım Mühendisi', 'Data Engineer', 'Business Analyst', 'Yetenek Programı']),
             ('Aselsan', 'Savunma Sanayi', ['Ankara'], ['Gömülü Sistemler Mühendisi', 'Donanım Mühendisi', 'Sistem Mühendisi', 'Yetenek Programı']),
             ('Baykar', 'Savunma Sanayi', ['İstanbul'], ['Uçuş Kontrol Mühendisi', 'Yazılım Mühendisi', 'Mekanik Tasarım Mühendisi']),
@@ -66,7 +64,6 @@ def setup_database():
             ('Ford Otosan', 'Otomotiv', ['Kocaeli', 'İstanbul', 'Eskişehir'], ['Otomotiv Mühendisi', 'Üretim Mühendisi', 'Ar-Ge Mühendisi', 'MT Programı']),
             ('Koç Holding', 'Diğer', ['İstanbul'], ['Geleceğim Koç Uzun Dönem Staj', 'MT Programı', 'Finans Uzmanı']),
             ('Akbank', 'Finans & Bankacılık', ['İstanbul', 'Kocaeli'], ['MT Programı', 'Veri Analisti', 'Yazılım Geliştirici']),
-            ('Acciona', 'Enerji', ['İstanbul', 'Ankara'], ['Enerji Sistemleri Mühendisi', 'Proje Mühendisi']),
             ('Anadolu Isuzu', 'Otomotiv', ['Kocaeli'], ['Üretim Mühendisi', 'Kalite Mühendisi', 'Tasarım Mühendisi'])
         ]
         
@@ -94,12 +91,14 @@ def setup_database():
         cursor.execute("SELECT id, company_name FROM Companies")
         company_data = cursor.fetchall()
         
-        for _ in range(25):
+        for _ in range(15):
             cid, cname = random.choice(company_data)
             program = random.choice(company_programs.get(cname, ['Yetenek Programı', 'Yeni Mezun', 'Stajyer']))
             status = random.choices(statuses, weights=[0.4, 0.15, 0.25, 0.2])[0]
+                
             days_ago = random.randint(1, 60)
             apply_date = (datetime.now() - timedelta(days=days_ago)).strftime('%Y-%m-%d')
+            
             exp = random.choice(experiences) if random.random() > 0.3 else ''
             diff = random.randint(2, 5)
             city = random.choice(company_cities.get(cname, ['İstanbul', 'Ankara']))

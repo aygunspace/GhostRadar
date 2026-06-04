@@ -37,7 +37,7 @@
         }
 
         .animate-marquee {
-            animation: marquee 45s linear infinite;
+            animation: marquee 90s linear infinite;
         }
 
         @keyframes marquee {
@@ -130,7 +130,7 @@
                     Ekle +</button>
 
                 <!-- Hamburger Butonu -->
-                <button onclick="toggleMobileMenu()"
+                <button onclick="toggleMobileMenu(event)"
                     class="md:hidden text-slate-300 hover:text-white focus:outline-none">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -149,7 +149,8 @@
             <a href="/siralamalar" class="hover:text-white block pl-3 transition">Sıralamalar</a>
             <a href="/karsilastir" class="hover:text-white block pl-3 transition">Karşılaştır</a>
             <a href="/panom" class="hover:text-white block text-fuchsia-400 pl-3 transition">Panom 📌</a>
-            <button onclick="openModal(); toggleMobileMenu();"
+            <a href="#" onclick="openManifesto(); toggleMobileMenu(event);" class="hover:text-white block pl-3 transition">Biz Kimiz? 📜</a>
+            <button onclick="openModal(); toggleMobileMenu(event);"
                 class="bg-gradient-to-r from-sky-500 to-blue-600 text-white font-black py-3.5 rounded-xl text-center w-full mt-4 shadow-lg shadow-sky-500/20">Süreç
                 Ekle 🚀</button>
         </div>
@@ -291,9 +292,9 @@
                         <span class="bg-amber-500 text-amber-950 px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider mb-3 shadow-[0_0_10px_rgba(245,158,11,0.5)]">Premium Veri Seti</span>
                         <h4 class="font-black text-sm md:text-base text-white uppercase tracking-wider mb-2">Departman Kırılımlı Gelişmiş Analiz</h4>
                         <p class="text-xs text-slate-400 max-w-sm mb-4">Hangi şirketin hangi departmanı (Yazılım, İK, Pazarlama) daha hızlı dönüyor? VIP Ajan rütbesine yüksel, kör noktaları yok et.</p>
-                        <button onclick="openCheckout()" class="bg-gradient-to-r from-fuchsia-600 to-purple-600 hover:from-fuchsia-500 hover:to-purple-500 text-white font-black text-xs px-6 py-2.5 rounded-full transition shadow-lg shadow-fuchsia-500/20">
+                        <a href="https://www.hikie.space/ghostradar/ghostradar-pro-ilan-tahmini" target="_blank" class="inline-block bg-gradient-to-r from-fuchsia-600 to-purple-600 hover:from-fuchsia-500 hover:to-purple-500 text-white font-black text-xs px-6 py-2.5 rounded-full transition shadow-lg shadow-fuchsia-500/20">
                             Aylık 49 TL'ye PRO'ya Yüksel ✨
-                        </button>
+                        </a>
                     </div>
 
                     <h3 class="font-bold text-xs text-slate-600 uppercase mb-4">Sektörel Departman Hızları (PRO)</h3>
@@ -308,10 +309,10 @@
                 <!-- Sponsorlu Kart Ekleme -->
                 <div class="bg-gradient-to-r from-amber-950/30 to-slate-900 border border-amber-500/30 rounded-2xl p-5 shadow-[0_0_20px_rgba(245,158,11,0.05)] relative overflow-hidden group">
                     <div class="absolute -top-10 -right-10 w-24 h-24 bg-amber-500/10 rounded-full blur-2xl group-hover:bg-amber-500/20 transition duration-500"></div>
-                    <span class="bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded text-[8px] font-black tracking-widest uppercase block w-max mb-3">Öne Çıkan Fırsat</span>
-                    <h4 class="font-black text-sm text-white mb-1">ABB Türkiye - Kontrol Mühendisi Adayı</h4>
-                    <p class="text-xs text-slate-400 mb-4">Industrial Automation departmanında yetiştirilmek üzere yeni mezunlar aranıyor.</p>
-                    <a href="https://www.linkedin.com/jobs/search/?keywords=ABB%20Kontrol%20M%C3%BChendisi&location=Turkey" target="_blank" class="block text-center bg-amber-500 hover:bg-amber-400 text-slate-900 font-black text-xs py-2 rounded-xl transition shadow-lg">Detayları Gör ve Başvur 🚀</a>
+                    <span class="bg-amber-500/20 text-amber-400 px-2 py-0.5 rounded text-[8px] font-black tracking-widest uppercase block w-max mb-3">ÖNE ÇIKAN FIRSAT</span>
+                    <h4 class="font-black text-sm text-white mb-1">İşe Alınma Potansiyelinizin Yüksek Olduğu İlanlar</h4>
+                    <p class="text-xs text-slate-400 mb-4">Profiliniz ve sektör trendlerine göre eşleşme oranı en yüksek açık pozisyonlar.</p>
+                    <a href="https://www.linkedin.com/jobs/search/?f_TPR=r86400&location=Turkey" target="_blank" class="block text-center bg-amber-500 hover:bg-amber-400 text-slate-900 font-black text-xs py-2 rounded-xl transition shadow-lg">Detayları Gör ve Başvur 🚀</a>
                 </div>
                 <div class="bg-rose-950/10 border border-rose-500/30 rounded-2xl p-6 relative overflow-hidden">
                     <h3
@@ -332,7 +333,25 @@
                             class="flex-1 bg-slate-800/50 border border-slate-800 rounded-lg px-3 py-2 text-xs outline-none">
                         <button class="bg-emerald-500 px-3 rounded-lg text-slate-900 font-bold">></button>
                     </form>
+                    <p class="text-[10px] text-slate-500/70 mt-1">Lütfen gerçek kişi isimleri (İK uzmanı vb.) veya hakaret içeren ifadeler kullanmayınız.</p>
                 </div>
+            </div>
+        </div>
+
+        <!-- YENİ: Fikir Radarı (Geri Bildirim Kutusu) -->
+        <div class="max-w-4xl mx-auto mt-12 mb-8 bg-slate-900/40 border border-slate-800 rounded-2xl p-5 shadow-inner">
+            <div class="flex items-center gap-2 mb-3">
+                <span class="text-sky-400">💡</span>
+                <h4 class="font-bold text-xs uppercase tracking-wider text-slate-300">Fikir Radarı</h4>
+            </div>
+            <p class="text-[10px] text-slate-400 mb-3">Sisteme eklenmesini istediğin bir özellik veya düzeltilmesi gereken bir yer mi var? 2-3 cümleyle anonim olarak fırlat gelsin.</p>
+            
+            <div class="flex gap-3">
+                <textarea id="feedback-text" rows="2" class="w-full bg-slate-950 border border-slate-700 text-xs rounded-xl p-3 text-slate-200 placeholder-slate-600 focus:outline-none focus:border-sky-500 transition resize-none" placeholder="Örn: Dark mode harika ama maaş tahminleri de gelsin..."></textarea>
+                <button onclick="sendFeedback()" class="bg-slate-800 hover:bg-sky-600 text-white font-bold text-xs px-4 rounded-xl border border-slate-700 hover:border-sky-500 transition flex flex-col items-center justify-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                    <span>Gönder</span>
+                </button>
             </div>
         </div>
 
@@ -370,8 +389,13 @@
                     </div>
                 </div>
             </div>
-            <div class="text-center text-slate-400 text-xs border-t border-slate-800 pt-6">
+            <div class="text-center text-slate-400 text-xs border-t border-slate-800 pt-6 flex flex-col items-center gap-2">
                 <p>© 2026 GhostRadar. Tüm hakları saklıdır. Geliştirici: A.Y.G.N. Space</p>
+                <p class="text-[10px] text-slate-500 max-w-3xl">GhostRadar, 5651 sayılı kanun kapsamında 'Yer Sağlayıcı' olarak hizmet vermektedir. Sitedeki tüm veriler kullanıcıların anonim beyanıdır, doğrulukları platform tarafından garanti edilmez ve platform hukuki sorumluluk kabul etmez.</p>
+                <div class="flex items-center justify-center gap-4 mt-2">
+                    <a href="#" onclick="openManifesto()" class="text-fuchsia-500 hover:text-fuchsia-400 underline text-xs">Biz Kimiz? / Manifesto</a>
+                    <a href="mailto:iletisim@ghostradar.com" class="text-sky-500 hover:text-sky-400 underline text-xs">İçerik Şikayeti & İletişim</a>
+                </div>
             </div>
         </div>
         <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -413,6 +437,29 @@
                         Raporu İndir (CSV)
                     </button>
                 </div>
+
+                <!-- YENİ: Premium LinkedIn URL Analiz Motoru -->
+                <div class="mt-6 bg-gradient-to-br from-slate-900 to-slate-950 border border-fuchsia-500/30 rounded-2xl p-5 relative overflow-hidden shadow-[0_0_20px_rgba(192,38,211,0.1)]">
+                    <div class="absolute top-0 right-0 bg-fuchsia-600 text-white text-[9px] font-black px-3 py-1 rounded-bl-xl tracking-widest z-10">PRO ÖZELLİK</div>
+                    
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="text-2xl">🔗</span>
+                        <div>
+                            <h4 class="font-black text-sm text-white">İlan Radarı (AI Tahmini)</h4>
+                            <p class="text-[10px] text-slate-400">Başvurmadan önce ilanın LinkedIn linkini yapıştır, şirketin ghosting ihtimalini ve dönüş süresini hesaplayalım.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-2 mt-4 relative">
+                        <input type="text" placeholder="https://www.linkedin.com/jobs/view/..." class="w-full bg-slate-950 border border-slate-800 text-xs rounded-xl p-3 text-slate-300 placeholder-slate-600 focus:outline-none focus:border-fuchsia-500 transition">
+                        
+                        <!-- Eğer kullanıcı PRO değilse doğrudan Hikie ödeme sayfasına atar -->
+                        <a href="https://www.hikie.space/ghostradar/ghostradar-pro-ilan-tahmini" target="_blank" class="bg-fuchsia-600 hover:bg-fuchsia-500 text-white font-black text-xs px-4 py-3 sm:py-0 rounded-xl flex items-center justify-center gap-2 transition whitespace-nowrap cursor-pointer w-full sm:w-auto">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                            Analiz Et (PRO)
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
@@ -430,39 +477,120 @@
         <div class="bg-slate-800 border border-slate-700 rounded-3xl p-8 max-w-md w-full shadow-2xl">
             <h2 class="text-xl font-bold text-sky-400 mb-6">Süreci Radara Ekle</h2>
             <form id="add-form" class="space-y-4">
-                <input type="text" id="company" list="company-list" placeholder="Şirket"
-                    class="w-full bg-slate-900 border border-slate-700 text-sm rounded-xl p-3 text-white" required
-                    autocomplete="off">
-                <datalist id="company-list"></datalist>
+                <input type="text" id="company" placeholder="Şirket adını yazın..."
+                    class="w-full bg-slate-900 border border-slate-700 text-sm rounded-xl p-3 text-white"
+                    required autocomplete="new-password" spellcheck="false">
                 
                 <div class="grid grid-cols-2 gap-4">
-                    <select id="sector" class="bg-slate-900 border border-slate-700 text-sm rounded-xl p-3 text-white" required>
-                        <option value="" disabled selected>Sektör Seç</option>
-                        <option value="Teknoloji & Yazılım">Teknoloji & Yazılım</option>
-                        <option value="Savunma Sanayi">Savunma Sanayi</option>
-                        <option value="Finans & Bankacılık">Finans & Bankacılık</option>
-                        <option value="E-Ticaret">E-Ticaret</option>
-                        <option value="Otomotiv">Otomotiv</option>
-                        <option value="Üretim & Sanayi">Üretim & Sanayi</option>
-                        <option value="Diğer">Diğer</option>
-                    </select>
+                    <div class="relative">
+                        <input type="text" id="sector" list="sector-list" placeholder="Sektör (Örn: Teknoloji)" class="w-full bg-slate-900 border border-slate-700 text-sm rounded-xl p-3 text-white" required autocomplete="off">
+                        <datalist id="sector-list">
+                            <option value="Teknoloji & Yazılım">
+                            <option value="Savunma Sanayi">
+                            <option value="Finans & Bankacılık">
+                            <option value="E-Ticaret">
+                            <option value="Otomotiv">
+                            <option value="Üretim & Sanayi">
+                            <option value="Diğer">
+                        </datalist>
+                    </div>
                     <input type="text" id="program" placeholder="Pozisyon/Program"
                         class="bg-slate-900 border border-slate-700 text-sm rounded-xl p-3 text-white" required>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
-                    <select id="city" class="bg-slate-900 border border-slate-700 text-sm rounded-xl p-3 text-white" required>
-                        <option value="" disabled selected>Şehir Seç</option>
-                        <option value="İstanbul">İstanbul</option>
-                        <option value="Ankara">Ankara</option>
-                        <option value="İzmir">İzmir</option>
-                        <option value="Kocaeli">Kocaeli</option>
-                        <option value="Bursa">Bursa</option>
-                        <option value="Eskişehir">Eskişehir</option>
-                        <option value="Antalya">Antalya</option>
-                        <option value="Remote">Remote</option>
-                    </select>
-                    <input type="date" id="apply-date" class="bg-slate-900 border border-slate-700 text-sm rounded-xl p-3 text-white" required title="Başvuru Tarihin">
+                    <div>
+                        <select id="city" class="w-full bg-slate-900 border border-slate-700 text-sm rounded-xl p-3 text-white" required>
+                            <option value="" disabled selected>📍 Şehir Seç</option>
+                            <option value="Remote">🌐 Remote</option>
+                            <option disabled>── 81 İL ──</option>
+                            <option value="Adana">Adana</option>
+                            <option value="Adıyaman">Adıyaman</option>
+                            <option value="Afyonkarahisar">Afyonkarahisar</option>
+                            <option value="Ağrı">Ağrı</option>
+                            <option value="Aksaray">Aksaray</option>
+                            <option value="Amasya">Amasya</option>
+                            <option value="Ankara">Ankara</option>
+                            <option value="Antalya">Antalya</option>
+                            <option value="Ardahan">Ardahan</option>
+                            <option value="Artvin">Artvin</option>
+                            <option value="Aydın">Aydın</option>
+                            <option value="Balıkesir">Balıkesir</option>
+                            <option value="Bartın">Bartın</option>
+                            <option value="Batman">Batman</option>
+                            <option value="Bayburt">Bayburt</option>
+                            <option value="Bilecik">Bilecik</option>
+                            <option value="Bingöl">Bingöl</option>
+                            <option value="Bitlis">Bitlis</option>
+                            <option value="Bolu">Bolu</option>
+                            <option value="Burdur">Burdur</option>
+                            <option value="Bursa">Bursa</option>
+                            <option value="Çanakkale">Çanakkale</option>
+                            <option value="Çankırı">Çankırı</option>
+                            <option value="Çorum">Çorum</option>
+                            <option value="Denizli">Denizli</option>
+                            <option value="Diyarbakır">Diyarbakır</option>
+                            <option value="Düzce">Düzce</option>
+                            <option value="Edirne">Edirne</option>
+                            <option value="Elazığ">Elazığ</option>
+                            <option value="Erzincan">Erzincan</option>
+                            <option value="Erzurum">Erzurum</option>
+                            <option value="Eskişehir">Eskişehir</option>
+                            <option value="Gaziantep">Gaziantep</option>
+                            <option value="Giresun">Giresun</option>
+                            <option value="Gümüşhane">Gümüşhane</option>
+                            <option value="Hakkari">Hakkari</option>
+                            <option value="Hatay">Hatay</option>
+                            <option value="Iğdır">Iğdır</option>
+                            <option value="Isparta">Isparta</option>
+                            <option value="İstanbul">İstanbul</option>
+                            <option value="İzmir">İzmir</option>
+                            <option value="Kahramanmaraş">Kahramanmaraş</option>
+                            <option value="Karabük">Karabük</option>
+                            <option value="Karaman">Karaman</option>
+                            <option value="Kars">Kars</option>
+                            <option value="Kastamonu">Kastamonu</option>
+                            <option value="Kayseri">Kayseri</option>
+                            <option value="Kilis">Kilis</option>
+                            <option value="Kırıkkale">Kırıkkale</option>
+                            <option value="Kırklareli">Kırklareli</option>
+                            <option value="Kırşehir">Kırşehir</option>
+                            <option value="Kocaeli">Kocaeli</option>
+                            <option value="Konya">Konya</option>
+                            <option value="Kütahya">Kütahya</option>
+                            <option value="Malatya">Malatya</option>
+                            <option value="Manisa">Manisa</option>
+                            <option value="Mardin">Mardin</option>
+                            <option value="Mersin">Mersin</option>
+                            <option value="Muğla">Muğla</option>
+                            <option value="Muş">Muş</option>
+                            <option value="Nevşehir">Nevşehir</option>
+                            <option value="Niğde">Niğde</option>
+                            <option value="Ordu">Ordu</option>
+                            <option value="Osmaniye">Osmaniye</option>
+                            <option value="Rize">Rize</option>
+                            <option value="Sakarya">Sakarya</option>
+                            <option value="Samsun">Samsun</option>
+                            <option value="Siirt">Siirt</option>
+                            <option value="Sinop">Sinop</option>
+                            <option value="Sivas">Sivas</option>
+                            <option value="Şanlıurfa">Şanlıurfa</option>
+                            <option value="Şırnak">Şırnak</option>
+                            <option value="Tekirdağ">Tekirdağ</option>
+                            <option value="Tokat">Tokat</option>
+                            <option value="Trabzon">Trabzon</option>
+                            <option value="Tunceli">Tunceli</option>
+                            <option value="Uşak">Uşak</option>
+                            <option value="Van">Van</option>
+                            <option value="Yalova">Yalova</option>
+                            <option value="Yozgat">Yozgat</option>
+                            <option value="Zonguldak">Zonguldak</option>
+                        </select>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label for="apply-date" class="text-[11px] text-slate-400 font-semibold pl-1">📅 Başvuru Tarihi</label>
+                        <input type="date" id="apply-date" class="bg-slate-900 border border-slate-700 text-sm rounded-xl p-3 text-white w-full" required>
+                    </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
@@ -485,6 +613,7 @@
 
                 <textarea id="experience" placeholder="Deneyimin... (Mülakat nasıldı, ne sordular?)"
                     class="w-full bg-slate-900 border border-slate-700 text-sm rounded-xl p-3 h-20 text-white"></textarea>
+                <p class="text-[10px] text-slate-500/70 mt-1">Lütfen gerçek kişi isimleri (İK uzmanı vb.) veya hakaret içeren ifadeler kullanmayınız.</p>
 
                 <div class="bg-slate-900 p-3 rounded-xl border border-slate-700 flex justify-between items-center">
                     <span class="text-xs text-slate-400">🤖 Robot Koruması: <span id="captcha-question">?</span> =</span>
@@ -518,12 +647,55 @@
             </div>
             
             <form id="checkout-form" class="space-y-4">
-                <input type="text" placeholder="Kart Üzerindeki İsim" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white text-sm" required>
-                <input type="text" placeholder="Kart Numarası (0000 0000 0000 0000)" class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white text-sm" required>
+                <!-- İsim: her şey büyük harf -->
+                <input
+                    id="checkout-name"
+                    type="text"
+                    placeholder="KART ÜZERİNDEKİ İSİM"
+                    maxlength="26"
+                    autocomplete="cc-name"
+                    oninput="this.value = this.value.toUpperCase()"
+                    class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white text-sm tracking-widest font-bold placeholder-slate-500"
+                    required>
+
+                <!-- Kart Numarası: 4'lü gruplar -->
+                <input
+                    id="checkout-card"
+                    type="text"
+                    placeholder="0000 0000 0000 0000"
+                    maxlength="19"
+                    inputmode="numeric"
+                    autocomplete="cc-number"
+                    oninput="formatCardNumber(this)"
+                    class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white text-sm tracking-widest font-mono placeholder-slate-500"
+                    required>
+
                 <div class="grid grid-cols-2 gap-4">
-                    <input type="text" placeholder="SKT (AA/YY)" class="bg-slate-800 border border-slate-700 rounded-xl p-3 text-white text-sm" required>
-                    <input type="text" placeholder="CVC" class="bg-slate-800 border border-slate-700 rounded-xl p-3 text-white text-sm" required>
+                    <!-- SKT: AA/YY otomatik slash -->
+                    <input
+                        id="checkout-expiry"
+                        type="text"
+                        placeholder="AA/YY"
+                        maxlength="5"
+                        inputmode="numeric"
+                        autocomplete="cc-exp"
+                        oninput="formatExpiry(this)"
+                        class="bg-slate-800 border border-slate-700 rounded-xl p-3 text-white text-sm tracking-widest font-mono placeholder-slate-500"
+                        required>
+
+                    <!-- CVC -->
+                    <input
+                        id="checkout-cvc"
+                        type="text"
+                        placeholder="CVC"
+                        maxlength="4"
+                        inputmode="numeric"
+                        autocomplete="cc-csc"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                        class="bg-slate-800 border border-slate-700 rounded-xl p-3 text-white text-sm tracking-widest font-mono placeholder-slate-500"
+                        required>
                 </div>
+
                 <button type="submit" class="w-full bg-gradient-to-r from-fuchsia-600 to-purple-600 hover:from-fuchsia-500 hover:to-purple-500 text-white font-black py-3 rounded-xl shadow-[0_0_15px_rgba(192,38,211,0.4)] transition mt-2">
                     Güvenli Ödeme Yap 🔒
                 </button>
@@ -545,10 +717,39 @@
 
     <script>
         // YENİ: Mobil Menü Aç/Kapat Fonksiyonu
-        function toggleMobileMenu() {
+        function toggleMobileMenu(event) {
+            if (event) event.stopPropagation();
             const menu = document.getElementById('mobile-menu');
             menu.classList.toggle('hidden');
         }
+
+        document.addEventListener('click', function(e) {
+            const menu = document.getElementById('mobile-menu');
+            const btn = document.querySelector('button[onclick*="toggleMobileMenu"]');
+            
+            if (menu && !menu.classList.contains('hidden')) {
+                // Eğer butona tıklanmadıysa ve menü içeriğine tıklanmadıysa menüyü kapat
+                if (btn && btn.contains(e.target)) return;
+                if (menu.contains(e.target)) return;
+                menu.classList.add('hidden');
+            }
+        });
+
+        // Sayfa kaydırıldığında menüyü kapat
+        window.addEventListener('scroll', function() {
+            const menu = document.getElementById('mobile-menu');
+            if (menu && !menu.classList.contains('hidden')) {
+                menu.classList.add('hidden');
+            }
+        }, { passive: true });
+        
+        // Mobilde dokunup kaydırma durumunda da kapat
+        window.addEventListener('touchmove', function() {
+            const menu = document.getElementById('mobile-menu');
+            if (menu && !menu.classList.contains('hidden')) {
+                menu.classList.add('hidden');
+            }
+        }, { passive: true });
         function searchTable(event) {
             const filter = document.getElementById('globalSearch').value.toUpperCase();
             const trs = document.querySelectorAll('#data-table tr');
@@ -672,7 +873,7 @@
                 document.getElementById('stat-rate').innerText = ghostRate + '%';
 
                 // Ticker & Datalist
-                const sponsorText = `<div class="flex items-center gap-3 px-4 py-1.5 rounded-full border bg-amber-950/30 border-amber-900/50 shadow-sm whitespace-nowrap"><span class="bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded text-[9px] font-black tracking-widest mr-2">🔥 SPONSORLU İLAN</span> <a href="#" class="text-amber-400 font-bold hover:underline">ABB Global Yetenek Programı Başvuruları Başladı! Hemen Başvur.</a></div>`;
+                const sponsorText = `<div class="flex items-center gap-3 px-4 py-1.5 rounded-full border bg-amber-950/30 border-amber-900/50 shadow-sm whitespace-nowrap"><span class="bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded text-[9px] font-black tracking-widest mr-2">🔥 GÜNÜN FIRSATI</span> <a href="https://www.linkedin.com/jobs/search/?f_TPR=r86400&location=Turkey" target="_blank" class="text-amber-400 font-bold hover:underline">Bugün Başvursan Yüksek Onay Alabileceğin İlanlar Keşfet!</a></div>`;
                 const dataText = data.slice(0, 15).map(i => {
                     let statusColor = 'text-slate-400';
                     let statusIcon = '⏳';
@@ -806,7 +1007,26 @@
         
         function openCheckout() { document.getElementById('checkoutModal').classList.remove('hidden'); }
         function closeCheckout() { document.getElementById('checkoutModal').classList.add('hidden'); }
-        
+
+        // ——— Kart Numarası Formatlama (4'lü gruplar, otomatik boşluk) ———
+        function formatCardNumber(input) {
+            let val = input.value.replace(/\D/g, '').substring(0, 16);
+            let formatted = val.match(/.{1,4}/g);
+            input.value = formatted ? formatted.join(' ') : val;
+        }
+
+        // ——— SKT Formatlama (AA/YY otomatik slash) ———
+        function formatExpiry(input) {
+            let val = input.value.replace(/\D/g, '').substring(0, 4);
+            if (val.length >= 3) {
+                input.value = val.substring(0, 2) + '/' + val.substring(2);
+            } else if (val.length === 2 && !input.value.includes('/')) {
+                input.value = val + '/';
+            } else {
+                input.value = val;
+            }
+        }
+
         document.getElementById('checkout-form').onsubmit = function(e) {
             e.preventDefault();
             closeCheckout();
@@ -816,7 +1036,50 @@
 
         // Start
         loadData(); updateRank();
+
+        // Manifesto Aç/Kapat
+        function openManifesto() { document.getElementById('manifesto-modal').classList.remove('hidden'); }
+        function closeManifesto() { document.getElementById('manifesto-modal').classList.add('hidden'); }
+
+        // Fikir Gönderme Simülasyonu
+        function sendFeedback() {
+            const text = document.getElementById('feedback-text').value;
+            if(text.length < 5) {
+                showToast('Lütfen en az birkaç kelime yazın!', 'error');
+                return;
+            }
+            // Şimdilik sadece toast mesajı gösterip kutuyu temizliyoruz
+            document.getElementById('feedback-text').value = '';
+            showToast('Fikrin radara takıldı, teşekkürler! 🚀', 'success');
+        }
     </script>
+
+    <!-- YENİ: Manifesto Modalı -->
+    <div id="manifesto-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 rounded-3xl w-full max-w-md p-6 relative shadow-2xl">
+            <!-- Kapatma Butonu -->
+            <button onclick="closeManifesto()" class="absolute top-4 right-4 text-slate-400 hover:text-white bg-slate-800/50 hover:bg-slate-700 p-2 rounded-full transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            
+            <div class="flex items-center gap-3 mb-4">
+                <span class="text-3xl">👁️🗨️</span>
+                <h3 class="text-xl font-black text-white tracking-wide">Manifesto</h3>
+            </div>
+            
+            <div class="space-y-4 text-sm text-slate-300 leading-relaxed">
+                <p>
+                    GhostRadar, sadece verilerin değil, emeğe saygının haritalandırıldığı bağımsız bir ekosistemdir.
+                </p>
+                <p class="italic border-l-2 border-sky-500 pl-3 text-slate-400">
+                    Süreçleri kusursuzca otomatize edip arka plandaki "insan" faktörünü, yani adayın haftalar süren bekleyişini görmezden gelen yapılara karşı bir şeffaflık hareketidir.
+                </p>
+                <p>
+                    Yeteneklerin belirsizliklerle yıpranmadığı, şirketlerin ise işveren markalarını veriyle güçlendirdiği yeni nesil bir mülakat kültürü inşa ediyoruz.
+                </p>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
