@@ -481,5 +481,12 @@ def send_pulse():
     conn.close()
     return jsonify({"success": True})
 
+# ── Render Uyanık Tutucu ──────────────────────────────────────────────────────
+@app.route('/ping')
+def ping():
+    """Cron-job tarafından her 10 dakikada bir çağrılır; Render'ı uyutmaz."""
+    return jsonify({"status": "ok", "service": "GhostRadar"}), 200
+# ─────────────────────────────────────────────────────────────────────────────
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

@@ -598,6 +598,7 @@
                 <div class="grid grid-cols-2 gap-4">
                     <select id="difficulty" class="bg-slate-900 border border-slate-700 text-sm rounded-xl p-3 text-white" required>
                         <option value="" disabled selected>Zorluk</option>
+                        <option value="0">🚫 Mülakata Alınmadım</option>
                         <option value="1">1 - Çok Kolay</option>
                         <option value="2">2 - Kolay</option>
                         <option value="3">3 - Orta</option>
@@ -949,6 +950,7 @@
             fetch('/api/add', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
                 .then(() => {
                     showToast("Başarıyla eklendi!");
+                    document.getElementById('add-form').reset();
                     closeModal(); loadData();
                     let c = parseInt(localStorage.getItem('ghostRadarContributions')) || 0;
                     localStorage.setItem('ghostRadarContributions', c + 1);
@@ -964,8 +966,15 @@
             document.getElementById('user-rank-badge').innerText = r;
         }
 
-        function openModal() { document.getElementById('dataModal').classList.remove('hidden'); genCaptcha(); }
-        function closeModal() { document.getElementById('dataModal').classList.add('hidden'); }
+        function openModal() {
+            document.getElementById('dataModal').classList.remove('hidden');
+            document.getElementById('add-form').reset();
+            genCaptcha();
+        }
+        function closeModal() {
+            document.getElementById('dataModal').classList.add('hidden');
+            document.getElementById('add-form').reset();
+        }
         function openSurprise() { document.getElementById('surpriseModal').classList.remove('hidden'); }
         
         function shareReport() {
